@@ -1,8 +1,14 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { Box, Typography } from "@mui/material";
-import { Player } from '@lottiefiles/react-lottie-player';
+import dynamic from 'next/dynamic';
 const inter = Inter({ subsets: ['latin'] })
+
+
+const Animation = dynamic(
+  () => import('../src/components/common/lottie'),
+  { loading: () => <p>Loading ...</p>, ssr: true }
+)
 
 export default function Home() {
   return (
@@ -17,31 +23,9 @@ export default function Home() {
                     display: 'grid',
       }}>
         
-              
-      <Player
-  autoplay
-  loop
-  src="rocket.json"
-  style={{ height: '300px', width: '300px' }}
->
-  {/* <Controls visible={true} buttons={['play', 'repeat', 'frame', 'debug']} /> */}
-      </Player>
-      <Player
-  autoplay
-  loop
-  src="figma.json"
-  style={{ height: '300px', width: '300px' }}
->
-  {/* <Controls visible={true} buttons={['play', 'repeat', 'frame', 'debug']} /> */}
-      </Player>
-      <Player
-  autoplay
-  loop
-  src="calculator.json"
-  style={{ height: '300px', width: '300px' }}
->
-  {/* <Controls visible={true} buttons={['play', 'repeat', 'frame', 'debug']} /> */}
-        </Player>
+        <Animation icon={'rocket'}/> 
+        <Animation icon={'figma'}/> 
+        <Animation icon={'calculator'}/> 
         </Box>
       <h1>front end</h1>
     </>
