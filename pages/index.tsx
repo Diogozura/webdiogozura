@@ -14,10 +14,7 @@ export default function Home() {
       </Head>
       <Box sx={{
                     padding: '10em',
-                    
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: 'grid',
       }}>
         
               
