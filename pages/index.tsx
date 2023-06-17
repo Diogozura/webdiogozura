@@ -24,8 +24,8 @@ export default function Home() {
       }}>
         
         <Animation icon={'rocket'}/> 
-        <Animation icon={'figma'}/> 
-        <Animation icon={'calculator'}/> 
+        {/* <Animation icon={'figma'}/> 
+        <Animation icon={'calculator'}/>  */}
         </Box>
       <h1>front end</h1>
     </>
