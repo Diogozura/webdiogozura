@@ -1,4 +1,4 @@
-# Easy imobiliário game
+# Web site Diogo zura UX/UI
 
 <p align="center">
   <a href="#-tecnologias" style='color:#FFF'>Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -13,7 +13,7 @@
 ## 🛰️Tecnologias
   <a href="https://nextjs.org" style='color:#FFF'>Next.js</a>
   <br/>
-  <a href="https://styled-components.com" style='color:#FFF'>styled-components</a>
+   <a href="https://lottiefiles.com" style='color:#FFF'>Lottie files</a>
   <br/>
   <a href="https://mui.com" style='color:#FFF'>Material UI</a>
   <br/>
@@ -21,12 +21,12 @@
 <br/>
 
 ## 👨‍💻 Projeto 
-Meu site versão simplificada 
+my portfolio version 4 , after numerous changes I decided to make it simpler , in a way that kept only the things I want to follow from now on .
 
 <br/>
 
 ## 🖼️ Site
-![pagina inicial do Diogo zura](/public/mysite.png)
+![pagina inicial do Diogo zura](/public/my%20site.png)
 
 <br/>
 
