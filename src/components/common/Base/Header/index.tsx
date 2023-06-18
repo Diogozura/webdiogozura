@@ -12,9 +12,9 @@ function AppBarLabel() {
     return (
         <Toolbar>
             <Image src={"/zuralogo.png"} width={48} height={48} alt={"Logo Diogo zura"} />
-            <h3 style={{padding: '10px'}}>
+            <h1 style={{padding: '10px'}}>
                 Diogo zura
-            </h3>
+            </h1>
         </Toolbar>
     );
 } 

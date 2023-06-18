@@ -40,7 +40,7 @@ export default function Home() {
 
                     }}>
                         <Animation icon={'rocket'} />
-                        <h1>Diogo zura Front end Developer / UX UI  </h1>
+                        <h2>Diogo zura Front end Developer / UX UI  </h2>
 
                     </Box>
                     <Box sx={{
