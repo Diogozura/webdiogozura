@@ -6,7 +6,7 @@
   <a href="#-site" style='color:#FFF'>Site</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 
 </p>
   <h2 align="center" >
-  <a style='color:#FFF' href="https://diogozura.com"> Figma do site</a>
+  <a style='color:#FFF' href="https://www.figma.com/community/file/1252120408742820150/portfolio-diogo-zura"> Figma do site</a>
  </h2>
 
 
