@@ -7,7 +7,7 @@ export default function Lottie({ icon }: any) {
   autoplay
   loop
   src={`${icon}.json`}
-  style={{ height: '300px', width: '300px' }}
+  style={{ height: '170px', width: '140px' }}
 ></Player>
         </>
     )

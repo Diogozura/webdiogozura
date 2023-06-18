@@ -2,38 +2,76 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'
 import GlobalStyle from "../styles";
-import {theme} from "../styles/theme";
+import { theme } from "../styles/theme";
 import { ThemeProvider } from 'styled-components'
+import { NextSeo, SocialProfileJsonLd } from 'next-seo';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-  <>
-    <Head>
-      <link rel="canonical" href="https://diogozura.com" />
-      <link rel="icon" href="/favicon.ico" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
+    <>
+         <SocialProfileJsonLd
+        type="Person"
+        name="Diogo zura"
+        url="https://diogozura.com"
+        sameAs={[
+          'https://www.instagram.com/diogozura_/',
+        ]}
+     
+      />
+     <NextSeo
+                additionalMetaTags={[{
+                    property: 'Front-end',
+                    content: 'Diogo Zura',
+                   
+                }, 
+                ]}
 
-    </Head>
-    <Script async src="https://www.googletagmanager.com/gtag/js?id=G-SLXWF6S89G" />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+    
+                openGraph={{
+                  type: 'website',
+                  url: 'https://diogozura.com',
+                  title: 'Diogo zura',
+                  description: 'hi im diogo para , front end developer and UX/UI design , always focused on improving peoples lives with technology ',
+                  images: [
+                      {
+                          url: 'https://diogozura.com/DiogoZura.png',
+                          alt: 'logo Diogo zura',
+                      },
+                  ],
+              }}
+            />
+     
+      <Head>
+        <link rel="canonical" href="https://diogozura.com" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="hi i'm diogo para , front end developer and UX/UI design , always focused on improving people's lives with technology "/>
+        <meta name="keywords" content="HTML, CSS, Next.js, Portilfio , Website"/>
+        <meta name="author" content="Diogo zura"/>
+        <title> Diogo zura Front end Developer / UX UI </title>
+              {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
+
+            </Head>
+            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-4G27WSXMW2" />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
            window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
         
-          gtag('config', 'G-SLXWF6S89G');
+          gtag('config', 'G-4G27WSXMW2');
           `
 
-        }}
+              }}
       />
 
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
-  
-      <Component {...pageProps} />
-    </ThemeProvider>
-    </>
-  )
+            <ThemeProvider theme={theme}>
+              <GlobalStyle />
+
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </>
+          )
 }
