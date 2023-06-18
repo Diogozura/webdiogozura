@@ -26,7 +26,7 @@ Meu site versão simplificada
 <br/>
 
 ## 🖼️ Site
-![pagina inicial do Diogo zura](/public/site/home_page.png)
+![pagina inicial do Diogo zura](/public/mysite.png)
 
 <br/>
 
