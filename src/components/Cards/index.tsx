@@ -29,7 +29,7 @@ export default function ImgMediaCard({figma}:any) {
         </Typography>
       </CardContent>
           <CardActions>
-              {figma?  <Link href={'https://www.2esestechnology.com.br'} >
+              {figma?  <Link href={'https://www.easycalculos.com.br'} >
               <Button size="small"> Learn More</Button>
               </Link> :  <Link href={'https://www.figma.com/@diogozura'} >
               <Button size="small"> Learn More</Button>
