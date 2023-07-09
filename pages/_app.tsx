@@ -53,7 +53,7 @@ export default function App({ Component, pageProps }: AppProps) {
               {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
 
             </Head>
-            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-4G27WSXMW2" />
+            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-WQGGHDHJQ4" />
             <script
               dangerouslySetInnerHTML={{
                 __html: `
@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }: AppProps) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
         
-          gtag('config', 'G-4G27WSXMW2');
+          gtag('config', 'G-WQGGHDHJQ4');
           `
 
               }}
