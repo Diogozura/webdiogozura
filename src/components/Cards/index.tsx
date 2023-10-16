@@ -10,31 +10,34 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
 const Animation = dynamic(
-    () => import('../../components/common/Lottie'),
-    { loading: () => <p>Loading ...</p>, ssr: true }
+  () => import('../../components/common/Lottie'),
+  { loading: () => <p>Loading ...</p>, ssr: true }
 )
-export default function ImgMediaCard({figma}:any) {
+export default function ImgMediaCard({ figma }: any) {
   return (
-      <Card sx={{width: 345, mt: 3, backgroundColor: theme.colors.AzulEscuro }} variant="outlined">
-          {figma ?   <CardMedia
+    <Card sx={{ width: 345, mt: 3, backgroundColor: theme.colors.AzulEscuro, textAlign: 'center' }} variant="outlined">
+      {figma ? <CardMedia
+        sx={{padding: 3}}
         component="img"
-        alt="green iguana"
+        alt="Easy cálculos"
         height="240"
-        image="/DoodlesDoggie.svg"
-      /> :  <Animation icon={'figma'} />}
+        image="/claro.png"
+      /> : <Animation icon={'figma'} />}
       <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                  {figma? ' website idea to help people with finances': 'my projects in figma'}
-     
+        <Typography gutterBottom variant="h4" component="h3">
+          {figma ? 'Easy calculos' : 'my projects in figma'}
+
         </Typography>
       </CardContent>
-          <CardActions>
-              {figma?  <Link href={'https://www.easycalculos.com.br'} >
-              <Button size="small"> Learn More</Button>
-              </Link> :  <Link href={'https://www.figma.com/@diogozura'} >
-              <Button size="small"> Learn More</Button>
-              </Link>}
-        
+      <CardActions sx={{ justifyContent: 'space-evenly' }}>
+        {figma ? <Link href={'https://www.easycalculos.com.br'} >
+          <Button variant="contained"
+            color="primary" size="small"> Learn More</Button>
+        </Link> : <Link href={'https://www.figma.com/@diogozura'} >
+          <Button variant="contained"
+            color="primary" size="small"> Learn More</Button>
+        </Link>}
+
       </CardActions>
     </Card>
   );
