@@ -14,7 +14,6 @@ export default createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     background-color: #000;
-    background-image: url("/background.svg");
     background-size: fill;
   }
  
