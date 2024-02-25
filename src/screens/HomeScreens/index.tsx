@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import dynamic from 'next/dynamic';
 import Base from '@/src/components/common/Base';
 import ImgMediaCard from '@/src/components/Cards';
@@ -6,6 +6,9 @@ import Container from '@mui/material/Container';
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { theme } from "@/styles/theme";
+import SobreMim from "@/src/components/SobreMim";
+import React from "react";
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 const Animation = dynamic(
     () => import('../../components/common/Lottie'),
     { loading: () => <p>Loading ...</p>, ssr: true }
@@ -13,47 +16,104 @@ const Animation = dynamic(
 
 export default function Home() {
     const projetos = [{
-        image: '/easy.png',
+        image: '/projetos/easy-calculos.png',
         alt: 'claro',
+        cor: '#FBF5F3',
         projeto: 'Easy cálculos',
+        descricao: 'Calculos para tudo que você precisa ',
         link: 'https://www.easycalculos.com'
-    }, {
-        image: '/palavrinhas.png',
-        alt: 'clinica palavrinhas - gerador de pseudopalavras',
-        projeto: 'Gerador de pseudopalavras',
-        link: 'https://www.clinicapalavrinhas.com.br'
     },
     {
-        image: '/figma.png',
+        image: '/projetos/easy-bank.png',
         alt: 'diogo zura figma',
-        projeto: 'Figma',
+        cor: '#FF7477',
+        projeto: 'Easy bank',
+        descricao: 'Simplificando o banco imobiliario ',
         link: 'https://www.figma.com/@diogozura'
-    }
+    },
+    {
+        image: '/projetos/FIGMA.png',
+        alt: 'clinica palavrinhas - gerador de pseudopalavras',
+        cor: '#1AC8ED',
+        projeto: 'Figma',
+        descricao: 'Projetos desenhados',
+        link: 'https://www.clinicapalavrinhas.com.br'
+    },
     ]
+    const handleClick = (event: { target: HTMLDivElement; }) => {
+        const anchor = (
+            (event.target as HTMLDivElement).ownerDocument || document
+        ).querySelector('#back-to-top-anchor');
 
+        if (anchor) {
+            anchor.scrollIntoView({
+                block: 'center',
+            });
+        }
+    };
+    const [open, setOpen] = React.useState(false);
+    const handleToggle = () => {
+        setOpen(!open);
+    };
     return (
         <>
             <Base>
                 <Container>
-                    <Box display={'grid'} height={{xs : null , md: '100vh'}} component={'section'} alignItems={'center'} alignContent={'space-evenly'} justifyContent={'space-around'} sx={{ my: 2  }}>
-                        <Box>
-                            <Animation icon={'rocket'} />
-                            <h2>Diogo zura Front end Developer / UX UI  </h2>
-                        </Box>
+                    <Box display={'grid'} height={{ xs: null, md: '90vh' }} component={'section'} alignItems={'center'} alignContent={'space-evenly'} justifyContent={'space-around'} sx={{ my: 2 }}>
 
-                        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                        <Grid container rowSpacing={2}
+                            margin={'auto'}
+                            display={'flex'}
+                            flexDirection={'row'}
+                            flexWrap={'wrap'}
+                            justifyContent={'space-between'}
+
+                            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                        >
                             {projetos.map((e, index) => (
                                 <>
-                                    <Grid item xs={8} md={4} m={1} borderRadius={3} padding={2} textAlign={'center'} bgcolor={theme.colors.AzulEscuro} component={'article'} key={index}>
-                                        {e.projeto === 'Figma' ? <Animation icon={'figma'} /> :  <Image src={e.image} alt={e.alt} width={450} height={236.25} />}
-                                        <Typography component={'h2'} variant={'h5'}>{e.projeto}</Typography>
-                                        <Link href={e.link}>Learn More</Link>
+                                    <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'} bgcolor={e.cor} component={'article'} key={index}>
+                                        <Link href={e.link}>
+                                            <Image src={e.image} alt={e.alt} width={200} height={150} />
+                                            <Typography component={'h2'} variant={'h4'} color={'#000000'}>{e.projeto}</Typography>
+                                            <Typography component={'p'} variant={'body1'} color={'#1D1A05'}>{e.descricao}</Typography>
+                                        </Link>
                                     </Grid>
                                 </>
                             ))}
                         </Grid>
-                    </Box>
 
+                    </Box>
+                    <Box textAlign={'center'} >
+                        <Button sx={{
+                            bgcolor: '#51D666', color: theme.colors.Preto, '&:hover': {
+                                backgroundColor: '#78ee8a', // Substitua pelo tom desejado
+                            },
+                            '&:focus': {
+                                backgroundColor: '#45b356', // Substitua pelo tom desejado
+                            },
+                        }} size="large" onClick={handleToggle}>
+                            {open ? '- saiba menos' : `+ saiba mais `}
+                        </Button>
+
+                    </Box>
+                    <Box  textAlign={'center'} component={'section'} display={open ? "block" : "none"}>
+                        <SobreMim />
+                        <Button
+                            sx={{
+                                margin: 'auto', bgcolor: theme.colors.Azul, color: theme.colors.Preto, '&:hover': {
+                                    backgroundColor: theme.colors.Azul, // Substitua pelo tom desejado
+                                },
+                                '&:focus': {
+                                    backgroundColor: theme.colors.Azul, // Substitua pelo tom desejado
+                                },
+                            }} size="large"
+                        >
+                            <Link href={'https://www.linkedin.com/in/diogo-silva-santos-251bb5192/'} style={{color:'#000', display:'flex', alignItems:'center'}}><LinkedInIcon fontSize="large" color="primary"/> Entrar em contato</Link>
+                        </Button>
+
+                    </Box>
                 </Container>
             </Base>
 

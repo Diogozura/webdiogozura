@@ -3,8 +3,8 @@ import Link from "next/link"
 import { Box } from "@mui/material";
 export default function Footer() {
    const redes = [{
-        nome: 'Instagram',
-        link:'https://instagram.com/diogozura_'
+        nome: 'Figma',
+        link:'https://www.figma.com/@diogozura'
    },
    {
     nome: 'LinkedIn',
@@ -14,10 +14,7 @@ export default function Footer() {
         nome: 'Github',
         link:'https://github.com/Diogozura'
        },
-       {
-        nome: 'Telegram',
-        link:'https://t.me/Diogozura'
-       },
+      
     ]
     
     return (
@@ -45,7 +42,7 @@ export default function Footer() {
                 {redes.map((items) => (
                       <>
                       <Link href={items.link} >
-                     <Image src={`/${items.nome}.svg`} width={48} height={48} alt={items.nome} />
+                        <Image src={`/${items.nome}.svg`} width={48} height={48} alt={items.nome} />
                         </Link>
                         </>
                 ) ) }

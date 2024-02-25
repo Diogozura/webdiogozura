@@ -1,3 +1,11 @@
+import { createTheme } from "@mui/material";
+
+const themes = createTheme({
+    typography: {
+        fontFamily: 'Iceberg, sans-serif',
+      },
+  
+  });
 export const theme = {
     colors: {
         Preto: "#1D1A05",
@@ -8,3 +16,5 @@ export const theme = {
     }
     
 }
+export default themes;
+  

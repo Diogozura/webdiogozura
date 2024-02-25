@@ -6,6 +6,7 @@ import { theme } from "../styles/theme";
 import { ThemeProvider } from 'styled-components'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo';
 
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
