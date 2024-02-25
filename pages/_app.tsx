@@ -2,9 +2,10 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'
 import GlobalStyle from "../styles";
-import { theme } from "../styles/theme";
+
 import { ThemeProvider } from 'styled-components'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo';
+import theme from '@/styles/theme';
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -69,7 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
       />
 
             <ThemeProvider theme={theme}>
-              <GlobalStyle />
+            
 
               <Component {...pageProps} />
             </ThemeProvider>

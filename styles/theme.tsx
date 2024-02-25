@@ -1,12 +1,13 @@
 import { createTheme } from "@mui/material";
+import "@fontsource/iceberg";
 
-const themes = createTheme({
+const theme = createTheme({
     typography: {
         fontFamily: 'Iceberg, sans-serif',
       },
   
   });
-export const theme = {
+export const themes = {
     colors: {
         Preto: "#1D1A05",
         Vermelho: "#FF7477",
@@ -16,5 +17,5 @@ export const theme = {
     }
     
 }
-export default themes;
+export default theme;
   

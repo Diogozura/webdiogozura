@@ -1196,6 +1196,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/iceberg@^5.0.18":
+  version "5.0.18"
+  resolved "https://registry.yarnpkg.com/@fontsource/iceberg/-/iceberg-5.0.18.tgz#5ea68444b8fc851023762cd560ccdac653752cee"
+  integrity sha512-aCeENFsRycNO2YeWeVFeB2/0IV8pUST/iJqbHfcreuSwLKYKic129M7SXUbddGvwuRRapbmEkq85wU0WOO9NGg==
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.10.tgz#5a3ffe32cc9306365fb3fd572596cd602d5e12d2"

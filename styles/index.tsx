@@ -1,12 +1,12 @@
 import { createGlobalStyle } from "styled-components";
-import { theme } from "./theme";
+import { themes } from "./theme";
 export default createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
     outline: 0;
     box-sizing: border-box;
-    color:${theme.colors.Branco};
+    color:${themes.colors.Branco};
     font-family: 'Iceberg', sans-serif;
   }
   body {
@@ -15,6 +15,7 @@ export default createGlobalStyle`
     box-sizing: border-box;
     background-color: #000;
     background-size: fill;
+    font-family: 'Iceberg', sans-serif;
   }
  
   html{

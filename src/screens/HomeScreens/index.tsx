@@ -5,7 +5,7 @@ import ImgMediaCard from '@/src/components/Cards';
 import Container from '@mui/material/Container';
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { theme } from "@/styles/theme";
+import { themes } from "@/styles/theme";
 import SobreMim from "@/src/components/SobreMim";
 import React from "react";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -67,8 +67,7 @@ export default function Home() {
                             display={'flex'}
                             flexDirection={'row'}
                             flexWrap={'wrap'}
-                            justifyContent={'space-between'}
-
+                            justifyContent={'space-around'}
                             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         >
                             {projetos.map((e, index) => (
@@ -87,7 +86,7 @@ export default function Home() {
                     </Box>
                     <Box textAlign={'center'} >
                         <Button sx={{
-                            bgcolor: '#51D666', color: theme.colors.Preto, '&:hover': {
+                            bgcolor: '#51D666', color: themes.colors.Preto, '&:hover': {
                                 backgroundColor: '#78ee8a', // Substitua pelo tom desejado
                             },
                             '&:focus': {
@@ -102,11 +101,11 @@ export default function Home() {
                         <SobreMim />
                         <Button
                             sx={{
-                                margin: 'auto', bgcolor: theme.colors.Azul, color: theme.colors.Preto, '&:hover': {
-                                    backgroundColor: theme.colors.Azul, // Substitua pelo tom desejado
+                                margin: 'auto', bgcolor: themes.colors.Azul, color: themes.colors.Preto, '&:hover': {
+                                    backgroundColor: themes.colors.Azul, // Substitua pelo tom desejado
                                 },
                                 '&:focus': {
-                                    backgroundColor: theme.colors.Azul, // Substitua pelo tom desejado
+                                    backgroundColor: themes.colors.Azul, // Substitua pelo tom desejado
                                 },
                             }} size="large"
                         >

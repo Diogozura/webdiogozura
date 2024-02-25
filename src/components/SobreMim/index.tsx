@@ -31,7 +31,7 @@ export default function SobreMim() {
         <>
             {sobreeu.map(({ Titulo, descricao }, index) => (
                 <Box key={index} component={'article'} mb={5}>
-                    <Typography textAlign={'start'} component={'h3'} variant={'h4'}>{Titulo}</Typography>
+                    <Typography textAlign={'start'} component={'h3'} variant={'h5'}>{Titulo}</Typography>
                     <Box component={'aside'} textAlign={'start'} bgcolor={'#3C3C3C'} borderRadius={1}p={4}>
                         <Typography component={'p'}>{descricao}</Typography>
                     </Box>
