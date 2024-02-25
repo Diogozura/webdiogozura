@@ -20,7 +20,7 @@ export default function Home() {
         alt: 'claro',
         cor: '#FBF5F3',
         projeto: 'Easy cálculos',
-        descricao: 'Calculos para tudo que você precisa ',
+        descricao: 'Cálculos para tudo que você precisa ',
         link: 'https://www.easycalculos.com'
     },
     {
@@ -28,8 +28,8 @@ export default function Home() {
         alt: 'diogo zura figma',
         cor: '#FF7477',
         projeto: 'Easy bank',
-        descricao: 'Simplificando o banco imobiliario ',
-        link: 'https://www.figma.com/@diogozura'
+        descricao: 'Simplificando o banco imobiliário ',
+        link: 'https://www.easyimobiliario.com.br'
     },
     {
         image: '/projetos/FIGMA.png',
@@ -37,7 +37,7 @@ export default function Home() {
         cor: '#1AC8ED',
         projeto: 'Figma',
         descricao: 'Projetos desenhados',
-        link: 'https://www.clinicapalavrinhas.com.br'
+        link: 'https://www.figma.com/@diogozura'
     },
     ]
     const handleClick = (event: { target: HTMLDivElement; }) => {
