@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { theme } from '@/styles/theme';
+import { themes } from '@/styles/theme';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
@@ -15,7 +15,7 @@ const Animation = dynamic(
 )
 export default function ImgMediaCard({ figma }: any) {
   return (
-    <Card sx={{ width: 345, mt: 3, backgroundColor: theme.colors.AzulEscuro, textAlign: 'center' }} variant="outlined">
+    <Card sx={{ width: 345, mt: 3, backgroundColor: themes.colors.AzulEscuro, textAlign: 'center' }} variant="outlined">
       {figma ? <CardMedia
         sx={{padding: 3}}
         component="img"
