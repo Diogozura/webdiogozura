@@ -72,8 +72,8 @@ export default function Home() {
                         >
                             {projetos.map((e, index) => (
                                 <>
-                                    <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'} bgcolor={e.cor} component={'article'} key={index}>
-                                        <Link href={e.link}>
+                                    <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'}  bgcolor={e.cor} component={'article'} key={index}>
+                                        <Link href={e.link} style={{textDecoration: 'none'}}>
                                             <Image src={e.image} alt={e.alt} width={200} height={150} />
                                             <Typography component={'h2'} variant={'h4'} color={'#000000'}>{e.projeto}</Typography>
                                             <Typography component={'p'} variant={'body1'} color={'#1D1A05'}>{e.descricao}</Typography>

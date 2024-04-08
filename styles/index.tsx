@@ -13,7 +13,7 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #000;
+    background-color: #000000;
     background-size: fill;
     font-family: 'Iceberg', sans-serif;
   }
