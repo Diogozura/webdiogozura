@@ -8,13 +8,16 @@ export default function Footer() {
    },
    {
     nome: 'LinkedIn',
-    link:'https://www.linkedin.com/in/diogo-silva-santos-251bb5192/'
+    link:'https://www.linkedin.com/in/diogo-s-251bb5192/'
        },
        {
         nome: 'Github',
         link:'https://github.com/Diogozura'
        },
-      
+       {
+        nome: 'Instagram',
+        link:'https://instagram.com/dziogo'
+       },
     ]
     
     return (
