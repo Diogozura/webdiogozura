@@ -59,7 +59,7 @@ export default function Home() {
         <>
             <Base>
                 <Container>
-                    <Box display={'grid'} height={{ xs: null, md: '60vh' }} component={'section'} alignItems={'center'} alignContent={'space-evenly'} justifyContent={'space-around'} sx={{ my: 2 }}>
+                    <Box display={'grid'} height={{ xs: '50vh', md: '60vh' }} component={'section'} alignItems={'center'} alignContent={'space-evenly'} justifyContent={'space-around'} sx={{ my: 2 }}>
 
 
                         <Grid container rowSpacing={2}
@@ -70,7 +70,7 @@ export default function Home() {
                             justifyContent={'space-around'}
                             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         >
-                            <Typography component={'h1'} variant="h3">Olá eu sou o Diogo zura !</Typography>
+                            <Typography component={'h1'} textAlign={'center'} variant="h3">Olá, eu sou o Diogo zura !</Typography>
                             {/* {projetos.map((e, index) => (
                                 <>
                                     <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'}  bgcolor={e.cor} component={'article'} key={index}>
@@ -110,7 +110,7 @@ export default function Home() {
                                 },
                             }} size="large"
                         >
-                            <Link href={'https://www.linkedin.com/in/diogo-silva-santos-251bb5192/'} style={{color:'#000', display:'flex', alignItems:'center'}}><LinkedInIcon fontSize="large" color="primary"/> Entrar em contato</Link>
+                            <Link href={'https://www.linkedin.com/in/diogo-s-251bb5192/'} style={{color:'#000', display:'flex', alignItems:'center'}}><LinkedInIcon fontSize="large" color="primary"/> Entrar em contato</Link>
                         </Button>
 
                     </Box>
