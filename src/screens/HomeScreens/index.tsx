@@ -9,48 +9,10 @@ import { themes } from "@/styles/theme";
 import SobreMim from "@/src/components/SobreMim";
 import React from "react";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-const Animation = dynamic(
-    () => import('../../components/common/Lottie'),
-    { loading: () => <p>Loading ...</p>, ssr: true }
-)
+
 
 export default function Home() {
-    const projetos = [{
-        image: '/projetos/easy-calculos.png',
-        alt: 'claro',
-        cor: '#FBF5F3',
-        projeto: 'Easy cálculos',
-        descricao: 'Cálculos para tudo que você precisa ',
-        link: 'https://www.easycalculos.com'
-    },
-    {
-        image: '/projetos/easy-bank.png',
-        alt: 'diogo zura figma',
-        cor: '#FF7477',
-        projeto: 'Easy bank',
-        descricao: 'Simplificando o banco imobiliário ',
-        link: 'https://www.easyimobiliario.com.br'
-    },
-    {
-        image: '/projetos/FIGMA.png',
-        alt: 'clinica palavrinhas - gerador de pseudopalavras',
-        cor: '#1AC8ED',
-        projeto: 'Figma',
-        descricao: 'Projetos desenhados',
-        link: 'https://www.figma.com/@diogozura'
-    },
-    ]
-    const handleClick = (event: { target: HTMLDivElement; }) => {
-        const anchor = (
-            (event.target as HTMLDivElement).ownerDocument || document
-        ).querySelector('#back-to-top-anchor');
-
-        if (anchor) {
-            anchor.scrollIntoView({
-                block: 'center',
-            });
-        }
-    };
+ 
     const [open, setOpen] = React.useState(false);
     const handleToggle = () => {
         setOpen(!open);
@@ -64,13 +26,14 @@ export default function Home() {
 
                         <Grid container rowSpacing={2}
                             margin={'auto'}
-                            display={'flex'}
+                            display={'grid'}
                             flexDirection={'row'}
                             flexWrap={'wrap'}
                             justifyContent={'space-around'}
                             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         >
                             <Typography component={'h1'} textAlign={'center'} variant="h3">Olá, eu sou o Diogo zura !</Typography>
+                            <Link href={'/dia-ano'}>Dias percorridos no ano</Link>
                             {/* {projetos.map((e, index) => (
                                 <>
                                     <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'}  bgcolor={e.cor} component={'article'} key={index}>
