@@ -5,6 +5,17 @@ import Base from '@/src/components/common/Base';
 import Head from 'next/head';
 
 const DaysProgress: React.FC = () => {
+  const [currentTime, setCurrentTime] = React.useState(moment());
+
+  // Atualiza a hora atual a cada segundo
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(moment());
+    }, 1000);
+
+    return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
+  }, []);
+
   // Obtém a data atual e o ano atual
   const today = moment();
   const year = today.year();
@@ -21,20 +32,25 @@ const DaysProgress: React.FC = () => {
 
   return (
     <>
-    <Head>
-      <title>Dia percorridos no ano - Diogo zura</title>
-    </Head>
+      <Head>
+        <title>Dia percorridos no ano - Diogo zura</title>
+      </Head>
       <Base>
 
         <Container sx={{
-          height:'70vh',
-          display:'grid',
-          alignItems:'center'
+          height: '70vh',
+          display: 'grid',
+          alignItems: 'center'
         }}>
-          <Box textAlign="center"  p={3}>
+          <Box textAlign="center" p={3}>
             {/* Exibição dos dias */}
-            <Typography variant="h4" gutterBottom>
+           
+
+            <Typography variant="h3" component={'h1'} gutterBottom>
               {daysElapsed} / {totalDaysInYear} - {year}
+            </Typography>
+            <Typography variant="h3" component={'h2'} gutterBottom>
+            {currentTime.format('HH:mm:ss')}
             </Typography>
 
             {/* Barra de progresso */}
