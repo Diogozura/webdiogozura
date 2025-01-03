@@ -7,14 +7,27 @@ import Head from 'next/head';
 const DaysProgress: React.FC = () => {
   const [currentTime, setCurrentTime] = React.useState(moment());
 
-  // Atualiza a hora atual a cada segundo
-  React.useEffect(() => {
+   // Atualiza o estado a cada segundo
+   React.useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTime(moment());
+      const now = moment();
+      setCurrentTime(now); // Atualiza a hora
     }, 1000);
 
     return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
   }, []);
+
+  // Atualiza os dias percorridos se o dia mudar (a cada 00:00)
+  React.useEffect(() => {
+    const checkMidnight = setInterval(() => {
+      const now = moment();
+      if (now.dayOfYear() !== currentTime.dayOfYear()) {
+        setCurrentTime(now); // Atualiza para o novo dia
+      }
+    }, 1000);
+
+    return () => clearInterval(checkMidnight); // Limpa o intervalo ao desmontar o componente
+  }, [currentTime]);
 
   // Obtém a data atual e o ano atual
   const today = moment();
