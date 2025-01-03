@@ -1,14 +1,17 @@
 import React from 'react';
 import moment from 'moment';
-import { Box, Typography, LinearProgress, Container, Tooltip } from '@mui/material';
+import {
+  Box, Typography, LinearProgress, Container, Tooltip, useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import Base from '@/src/components/common/Base';
 import Head from 'next/head';
 
 const DaysProgress: React.FC = () => {
   const [currentTime, setCurrentTime] = React.useState(moment());
 
-   // Atualiza o estado a cada segundo
-   React.useEffect(() => {
+  // Atualiza o estado a cada segundo
+  React.useEffect(() => {
     const interval = setInterval(() => {
       const now = moment();
       setCurrentTime(now); // Atualiza a hora
@@ -43,6 +46,10 @@ const DaysProgress: React.FC = () => {
   // Porcentagem para a barra de progresso
   const progress = (daysElapsed / totalDaysInYear) * 100;
 
+  // Responsividade
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <>
       <Head>
@@ -57,15 +64,37 @@ const DaysProgress: React.FC = () => {
         }}>
           <Box textAlign="center" p={3}>
             {/* Exibição dos dias */}
-           
 
-            <Typography variant="h3" component={'h1'} gutterBottom>
-              {daysElapsed} / {totalDaysInYear} - {year}
-            </Typography>
+
+            {/* Tooltip com o Instagram */}
+            <Tooltip title="Sugerido por @kimberly.oliveiraa">
+              <Typography
+                variant={isMobile ? 'h3' : 'h1'}
+                component="h1"
+                gutterBottom
+              >
+                <strong>{daysElapsed}</strong> / <strong>{totalDaysInYear}</strong> -{' '}
+                {year}
+              </Typography>
+            </Tooltip>
             <Typography variant="h3" component={'h2'} gutterBottom>
-            {currentTime.format('HH:mm:ss')}
+              {currentTime.format('HH:mm:ss')}
             </Typography>
+            {/* GIF - Adicionado */}
+            <Tooltip title="Sugerido por @gusta.http">
 
+           
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+              <img
+                src="/gifdança.gif" // Substitua pelo link do seu GIF
+                alt="GIF sugerido por Gusta"
+                style={{
+                  maxWidth: isMobile ? '80%' : '50%',
+                  borderRadius: '10px',
+                }}
+              />
+            </Box>
+            </Tooltip>
             {/* Barra de progresso */}
             <LinearProgress
               variant="determinate"
