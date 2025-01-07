@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import Base from '@/src/components/common/Base';
 import Head from 'next/head';
+import 'moment/locale/pt-br'; // Importa o idioma português
 
 const DaysProgress: React.FC = () => {
   const [currentTime, setCurrentTime] = React.useState(moment());
@@ -58,7 +59,7 @@ const DaysProgress: React.FC = () => {
       <Base>
 
         <Container sx={{
-          height: '70vh',
+          
           display: 'grid',
           alignItems: 'center'
         }}>
@@ -77,6 +78,15 @@ const DaysProgress: React.FC = () => {
                 {year}
               </Typography>
             </Tooltip>
+            {/* Exibição do dia da semana */}
+            <Typography
+              variant={isMobile ? 'h4' : 'h2'}
+              component="h2"
+              gutterBottom
+             textTransform={'uppercase'}
+            >
+              {today.format('dddd')}
+            </Typography>
             <Typography variant="h3" component={'h2'} gutterBottom>
               {currentTime.format('HH:mm:ss')}
             </Typography>
