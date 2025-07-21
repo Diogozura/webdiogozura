@@ -34,6 +34,7 @@ export default function Home() {
                         >
                             <Typography component={'h1'} textAlign={'center'} variant="h3">Olá, eu sou o Diogo zura !</Typography>
                             <Link href={'/dia-ano'}>Dias percorridos no ano</Link>
+                            <Link href={'/sol'}>☀️ Sol e a Lua🌑 </Link>
                             {/* {projetos.map((e, index) => (
                                 <>
                                     <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'}  bgcolor={e.cor} component={'article'} key={index}>
