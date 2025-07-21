@@ -1,30 +1,24 @@
+// components/Base.tsx
+import * as React from 'react';
 import Footer from "./Footer";
 import Header from "./Header";
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
-
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Fade from '@mui/material/Fade';
 
 interface Props {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
     window?: () => Window;
     children: React.ReactElement;
+    onScroll?: () => void;
 }
+
 function ScrollTop(props: Props) {
     const { children, window } = props;
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
     const trigger = useScrollTrigger({
         target: window ? window() : undefined,
         disableHysteresis: true,
@@ -35,11 +29,8 @@ function ScrollTop(props: Props) {
         const anchor = (
             (event.target as HTMLDivElement).ownerDocument || document
         ).querySelector('#back-to-top-anchor');
-
         if (anchor) {
-            anchor.scrollIntoView({
-                block: 'center',
-            });
+            anchor.scrollIntoView({ block: 'center' });
         }
     };
 
@@ -48,12 +39,7 @@ function ScrollTop(props: Props) {
             <Box
                 onClick={handleClick}
                 role="presentation"
-                
-                sx={{
-                    position:'fixed',
-                    bottom: 16,
-                    right: 16,
-                }}
+                sx={{ position: 'fixed', bottom: 16, right: 16 }}
             >
                 {children}
             </Box>
@@ -61,22 +47,21 @@ function ScrollTop(props: Props) {
     );
 }
 
-export default function Base({ children }: any, props: Props,) {
+export default function Base(props: Props) {
+    const { children, window, onScroll } = props;
+
     return (
         <>
-            <React.Fragment>
-              
-                <Toolbar id="back-to-top-anchor" />
-                <Header />
-                {children}
-                <ScrollTop {...props}>
-                    <Fab size="medium" color="info" aria-label="scroll back to top">
-                        <KeyboardArrowUpIcon />
-                    </Fab>
-                </ScrollTop>
-              
-                <Footer />
-            </React.Fragment>
+            <CssBaseline />
+            <Toolbar id="back-to-top-anchor" />
+            <Header />
+            {children}
+            <ScrollTop window={window} onScroll={onScroll}>
+                <Fab size="medium" color="info" aria-label="scroll back to top">
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </ScrollTop>
+            <Footer />
         </>
-    )
+    );
 }

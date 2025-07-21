@@ -7,6 +7,7 @@ import {
 import Base from '@/src/components/common/Base';
 import Head from 'next/head';
 import 'moment/locale/pt-br'; // Importa o idioma português
+import Image from 'next/image';
 
 const DaysProgress: React.FC = () => {
   const [currentTime, setCurrentTime] = React.useState(moment());
@@ -59,7 +60,7 @@ const DaysProgress: React.FC = () => {
       <Base>
 
         <Container sx={{
-          
+
           display: 'grid',
           alignItems: 'center'
         }}>
@@ -83,7 +84,7 @@ const DaysProgress: React.FC = () => {
               variant={isMobile ? 'h4' : 'h2'}
               component="h2"
               gutterBottom
-             textTransform={'uppercase'}
+              textTransform={'uppercase'}
             >
               {today.format('dddd')}
             </Typography>
@@ -93,17 +94,20 @@ const DaysProgress: React.FC = () => {
             {/* GIF - Adicionado */}
             <Tooltip title="Sugerido por @gusta.http">
 
-           
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-              <img
-                src="/gifdança.gif" // Substitua pelo link do seu GIF
-                alt="GIF sugerido por Gusta"
-                style={{
-                  maxWidth: isMobile ? '80%' : '50%',
-                  borderRadius: '10px',
-                }}
-              />
-            </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <Image
+                  src="/gifdança.gif"
+                  alt="GIF sugerido por Gusta"
+                  width={600}          // largura em pixels
+                  height={400}         // altura em pixels
+                  style={{
+                    maxWidth: isMobile ? '80%' : '50%',
+                    height: 'auto',    // mantém a proporção
+                    borderRadius: '10px',
+                  }}
+                />
+              </Box>
             </Tooltip>
             {/* Barra de progresso */}
             <LinearProgress

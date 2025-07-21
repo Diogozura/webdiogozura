@@ -1,27 +1,26 @@
-import { createGlobalStyle } from "styled-components";
-import { themes } from "./theme";
-export default createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    box-sizing: border-box;
-    color:${themes.colors.Branco};
-    font-family: 'Iceberg', sans-serif;
-  }
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #000000;
-    background-size: fill;
-    font-family: 'Iceberg', sans-serif;
-  }
- 
-  html{
-  scroll-behavior: smooth;
-}
-  button {
-    cursor: pointer;
-  }
-`;
+// src/theme/globalStyles.tsx
+import { GlobalStyles } from '@mui/material';
+
+export const globalStyles = (
+  <GlobalStyles
+    styles={{
+      '*': {
+        margin: 0,
+        padding: 0,
+        outline: 0,
+        boxSizing: 'border-box',
+        fontFamily: `'Iceberg', sans-serif`,
+      },
+      body: {
+        backgroundColor: '#000000',
+        backgroundSize: 'fill',
+      },
+      html: {
+        scrollBehavior: 'smooth',
+      },
+      button: {
+        cursor: 'pointer',
+      },
+    }}
+  />
+);

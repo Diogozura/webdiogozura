@@ -20,7 +20,7 @@ export default function Home() {
     return (
         <>
             <Base>
-                <Container>
+                <Container >
                     <Box display={'grid'} height={{ xs: '50vh', md: '60vh' }} component={'section'} alignItems={'center'} alignContent={'space-evenly'} justifyContent={'space-around'} sx={{ my: 2 }}>
 
 
