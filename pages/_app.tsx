@@ -6,6 +6,7 @@ import Script from 'next/script'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo';
 import theme from '@/styles/theme';
 import { globalStyles } from '@/styles';
+import { UTMTracker } from '@/src/components/UTMTracker';
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -69,8 +70,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
       {globalStyles}
-
+      <UTMTracker />
       <Component {...pageProps} />
+      
     </>
   )
 }
