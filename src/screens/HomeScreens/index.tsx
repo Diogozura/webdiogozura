@@ -1,86 +1,290 @@
-import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery, Container, Chip, Card, CardContent, CardActions } from "@mui/material";
 import dynamic from 'next/dynamic';
 import Base from '@/src/components/common/Base';
-import ImgMediaCard from '@/src/components/Cards';
-import Container from '@mui/material/Container';
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { themes } from "@/styles/theme";
 import SobreMim from "@/src/components/SobreMim";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export default function Home() {
- 
     const [open, setOpen] = React.useState(false);
+    const isMobile = useMediaQuery('(max-width:768px)');
+    const aboutRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (open && aboutRef.current) {
+            aboutRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [open]);
+
     const handleToggle = () => {
-        setOpen(!open);
+        setOpen(prev => !prev);
     };
+
     return (
         <>
             <Base>
-                <Container >
-                    <Box display={'grid'} height={{ xs: '50vh', md: '60vh' }} component={'section'} alignItems={'center'} alignContent={'space-evenly'} justifyContent={'space-around'} sx={{ my: 2 }}>
+                {/* Hero Section */}
+                <Box
+                    component="section"
+                    sx={{
+                        background: `linear-gradient(135deg, ${themes.colors.Azul}20 0%, ${themes.colors.Vermelho}10 100%)`,
+                        minHeight: { xs: '80vh', md: '90vh' },
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            width: '400px',
+                            height: '400px',
+                            background: `radial-gradient(circle, ${themes.colors.Azul}15 0%, transparent 70%)`,
+                            borderRadius: '50%',
+                            top: '-100px',
+                            right: '-100px',
+                            animation: 'float 6s ease-in-out infinite',
+                        },
+                        '&::after': {
+                            content: '""',
+                            position: 'absolute',
+                            width: '300px',
+                            height: '300px',
+                            background: `radial-gradient(circle, ${themes.colors.Vermelho}10 0%, transparent 70%)`,
+                            borderRadius: '50%',
+                            bottom: '-50px',
+                            left: '-50px',
+                            animation: 'float 8s ease-in-out infinite reverse',
+                        },
+                        '@keyframes float': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(30px)' },
+                        }
+                    }}
+                >
+                    <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+                        <Grid container spacing={4} alignItems="center">
+                            {/* Conteúdo Text */}
+                            <Grid item xs={12} md={6}>
+                                <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                                    <Typography
+                                        variant="h1"
+                                        sx={{
+                                            fontSize: { xs: '2.5rem', md: '3.5rem' },
+                                            fontWeight: 800,
+                                            background: `linear-gradient(135deg, ${themes.colors.Azul} 0%, ${themes.colors.AzulEscuro} 100%)`,
+                                            WebkitBackgroundClip: 'text',
+                                            WebkitTextFillColor: 'transparent',
+                                            backgroundClip: 'text',
+                                            marginBottom: 2,
+                                            lineHeight: 1.2,
+                                        }}
+                                    >
+                                        Olá, eu sou o <br /> Diogo Zura
+                                    </Typography>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{
+                                            color: themes.colors.AzulEscuro,
+                                            marginBottom: 3,
+                                            fontWeight: 300,
+                                            fontSize: { xs: '1rem', md: '1.3rem' }
+                                        }}
+                                    >
+                                        Desenvolvedor Full Stack apaixonado por criar experiências incríveis
+                                    </Typography>
+                                    
+                                    {/* Badges */}
+                                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 4, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+                                        <Chip label="React" variant="filled" sx={{ bgcolor: themes.colors.Azul, color: '#fff' }} />
+                                        <Chip label="Next.js" variant="filled" sx={{ bgcolor: themes.colors.AzulEscuro, color: '#fff' }} />
+                                        <Chip label="TypeScript" variant="filled" sx={{ bgcolor: themes.colors.Vermelho, color: '#fff' }} />
+                                    </Box>
 
+                                    {/* Botões de Navegação */}
+                                    <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
+                                        <Button
+                                            variant="contained"
+                                            size="large"
+                                            onClick={handleToggle}
+                                            sx={{
+                                                background: `linear-gradient(135deg, ${themes.colors.Azul} 0%, ${themes.colors.AzulEscuro} 100%)`,
+                                                color: '#fff',
+                                                fontWeight: 600,
+                                                px: 4,
+                                                py: 1.5,
+                                                borderRadius: 2,
+                                                '&:hover': {
+                                                    transform: 'translateY(-3px)',
+                                                    boxShadow: `0 10px 30px ${themes.colors.Azul}40`,
+                                                },
+                                                transition: 'all 0.3s ease',
+                                            }}
+                                        >
+                                            Saiba Mais Sobre Mim
+                                        </Button>
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            sx={{
+                                                color: themes.colors.AzulEscuro,
+                                                borderColor: themes.colors.Azul,
+                                                fontWeight: 600,
+                                                px: 4,
+                                                py: 1.5,
+                                                borderRadius: 2,
+                                                border: `2px solid ${themes.colors.Azul}`,
+                                                '&:hover': {
+                                                    bgcolor: `${themes.colors.Azul}10`,
+                                                    transform: 'translateY(-3px)',
+                                                },
+                                                transition: 'all 0.3s ease',
+                                            }}
+                                            href="https://www.linkedin.com/in/diogo-s-251bb5192/"
+                                            component="a"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <LinkedInIcon sx={{ mr: 1 }} /> Conectar
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            </Grid>
 
-                        <Grid container rowSpacing={2}
-                            margin={'auto'}
-                            display={'grid'}
-                            flexDirection={'row'}
-                            flexWrap={'wrap'}
-                            justifyContent={'space-around'}
-                            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                        >
-                            <Typography component={'h1'} textAlign={'center'} variant="h3">Olá, eu sou o Diogo zura !</Typography>
-                            <Link href={'/dia-ano'}>Dias percorridos no ano</Link>
-                            <Link href={'/sol'}>☀️ Sol e a Lua🌑 </Link>
-                            {/* {projetos.map((e, index) => (
-                                <>
-                                    <Grid item xs={8} md={4} m={1} borderRadius={3} width={'305px'} height={'300px'} padding={2} textAlign={'center'}  bgcolor={e.cor} component={'article'} key={index}>
-                                        <Link href={e.link} style={{textDecoration: 'none'}}>
-                                            <Image src={e.image} alt={e.alt} width={200} height={150} />
-                                            <Typography component={'h2'} variant={'h4'} color={'#000000'}>{e.projeto}</Typography>
-                                            <Typography component={'p'} variant={'body1'} color={'#1D1A05'}>{e.descricao}</Typography>
-                                        </Link>
-                                    </Grid>
-                                </>
-                            ))} */}
+                            {/* Quick Links */}
+                            <Grid item xs={12} md={6}>
+                                <Box
+                                    sx={{
+                                        display: 'grid',
+                                        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                                        gap: 2,
+                                        justifyItems: 'center',
+                                        alignItems: 'start',
+                                        width: '100%'
+                                    }}
+                                >
+                                    <Card
+                                        sx={{
+                                            background: `linear-gradient(135deg, ${themes.colors.Azul}20 0%, transparent 100%)`,
+                                            border: `2px solid ${themes.colors.Azul}`,
+                                            borderRadius: 2,
+                                            transition: 'all 0.3s ease',
+                                            cursor: 'pointer',
+                                            width: '100%',
+                                            maxWidth: 520,
+                                            mx: 'auto',
+                                            boxSizing: 'border-box',
+                                            '&:hover': {
+                                                transform: 'translateY(-8px)',
+                                                boxShadow: `0 15px 40px ${themes.colors.Azul}30`,
+                                            }
+                                        }}
+                                        component={Link}
+                                        href="/dia-ano"
+                                    >
+                                        <CardContent sx={{ py: 2, px: 2 }}>
+                                            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                                                📅 Dias do Ano
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary">
+                                                Visualize seu progresso no ano
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+
+                                    <Card
+                                        sx={{
+                                            background: `linear-gradient(135deg, ${themes.colors.Vermelho}20 0%, transparent 100%)`,
+                                            border: `2px solid ${themes.colors.Vermelho}`,
+                                            borderRadius: 2,
+                                            transition: 'all 0.3s ease',
+                                            cursor: 'pointer',
+                                            width: '100%',
+                                            maxWidth: 520,
+                                            mx: 'auto',
+                                            boxSizing: 'border-box',
+                                            '&:hover': {
+                                                transform: 'translateY(-8px)',
+                                                boxShadow: `0 15px 40px ${themes.colors.Vermelho}30`,
+                                            }
+                                        }}
+                                        component={Link}
+                                        href="/sol"
+                                    >
+                                        <CardContent sx={{ py: 2, px: 2 }}>
+                                            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                                                ☀️ Sol e Lua
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary">
+                                                Acompanhe os astros
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Box>
+                            </Grid>
                         </Grid>
+                    </Container>
+                </Box>
 
+                {/* About Section */}
+                {open && (
+                    <Box
+                        ref={aboutRef}
+                        id="sobre-mim-section"
+                        component="section"
+                        sx={{
+                            py: { xs: 6, md: 10 },
+                            px: { xs: 2, md: 4 },
+                            background: `linear-gradient(180deg, transparent 0%, ${themes.colors.Azul}05 100%)`,
+                            animation: 'slideIn 0.5s ease-out',
+                            '@keyframes slideIn': {
+                                from: { opacity: 0, transform: 'translateY(20px)' },
+                                to: { opacity: 1, transform: 'translateY(0)' },
+                            }
+                        }}
+                    >
+                        <Container maxWidth="md">
+                            <Box sx={{ textAlign: 'center', mb: 6 }}>
+                                <Typography variant="h3" sx={{ fontWeight: 700, mb: 2, color: themes.colors.AzulEscuro }}>
+                                    Sobre Mim
+                                </Typography>
+                                <Box sx={{ width: '80px', height: '4px', background: `linear-gradient(90deg, ${themes.colors.Azul}, ${themes.colors.Vermelho})`, margin: '0 auto' }} />
+                            </Box>
+                            <SobreMim />
+                            
+                            <Box sx={{ textAlign: 'center', mt: 6 }}>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    component="a"
+                                    href="https://www.linkedin.com/in/diogo-s-251bb5192/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{
+                                        background: `linear-gradient(135deg, ${themes.colors.Azul} 0%, ${themes.colors.AzulEscuro} 100%)`,
+                                        color: '#fff',
+                                        fontWeight: 600,
+                                        px: 5,
+                                        py: 2,
+                                        borderRadius: 2,
+                                        '&:hover': {
+                                            transform: 'translateY(-3px)',
+                                            boxShadow: `0 15px 40px ${themes.colors.Azul}40`,
+                                        },
+                                        transition: 'all 0.3s ease',
+                                    }}
+                                >
+                                    <LinkedInIcon sx={{ mr: 2 }} /> Vamos Conversar
+                                </Button>
+                            </Box>
+                        </Container>
                     </Box>
-                    <Box textAlign={'center'} >
-                        <Button sx={{
-                            bgcolor: '#51D666', color: themes.colors.Preto, '&:hover': {
-                                backgroundColor: '#78ee8a', // Substitua pelo tom desejado
-                            },
-                            '&:focus': {
-                                backgroundColor: '#45b356', // Substitua pelo tom desejado
-                            },
-                        }} size="large" onClick={handleToggle}>
-                            {open ? '- saiba menos' : `+ saiba mais `}
-                        </Button>
-
-                    </Box>
-                    <Box  textAlign={'center'} component={'section'} display={open ? "block" : "none"}>
-                        <SobreMim />
-                        <Button
-                            sx={{
-                                margin: 'auto', bgcolor: themes.colors.Azul, color: themes.colors.Preto, '&:hover': {
-                                    backgroundColor: themes.colors.Azul, // Substitua pelo tom desejado
-                                },
-                                '&:focus': {
-                                    backgroundColor: themes.colors.Azul, // Substitua pelo tom desejado
-                                },
-                            }} size="large"
-                        >
-                            <Link href={'https://www.linkedin.com/in/diogo-s-251bb5192/'} style={{color:'#000', display:'flex', alignItems:'center'}}><LinkedInIcon fontSize="large" color="primary"/> Entrar em contato</Link>
-                        </Button>
-
-                    </Box>
-                </Container>
+                )}
             </Base>
-
         </>
-    )
+    );
 }
