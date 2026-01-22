@@ -8,6 +8,7 @@ import Base from '@/src/components/common/Base';
 import Head from 'next/head';
 import Image from 'next/image';
 import { themes } from '@/styles/theme';
+import NavCards from '@/src/components/Cards/NavCards';
 
 const DaysProgress: React.FC = () => {
   const [currentTime, setCurrentTime] = React.useState(moment());
@@ -70,9 +71,11 @@ const DaysProgress: React.FC = () => {
           sx={{
             minHeight: '70vh',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             py: { xs: 4, md: 8 },
+            gap: 4,
           }}
         >
           <Box
@@ -173,6 +176,10 @@ const DaysProgress: React.FC = () => {
                 </Box>
               </Box>
             </Box>
+          </Box>
+          {/* Navigation cards to other pages */}
+          <Box sx={{ mt: 2 }}>
+            <NavCards />
           </Box>
         </Container>
       </Base>
