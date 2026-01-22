@@ -6,11 +6,21 @@ import {
 } from '@mui/material';
 import Base from '@/src/components/common/Base';
 import Head from 'next/head';
-import 'moment/locale/pt-br'; // Importa o idioma português
 import Image from 'next/image';
+import { themes } from '@/styles/theme';
 
 const DaysProgress: React.FC = () => {
   const [currentTime, setCurrentTime] = React.useState(moment());
+
+  // configura locale do moment
+  React.useEffect(() => {
+    try {
+      require('moment/locale/pt-br');
+      moment.locale('pt-br');
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   // Atualiza o estado a cada segundo
   React.useEffect(() => {
@@ -47,84 +57,126 @@ const DaysProgress: React.FC = () => {
 
   // Porcentagem para a barra de progresso
   const progress = (daysElapsed / totalDaysInYear) * 100;
-
-  // Responsividade
+  // Responsividade (corrige erro de isMobile não definido)
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   return (
     <>
       <Head>
         <title>Dia percorridos no ano - Diogo zura</title>
       </Head>
       <Base>
-
-        <Container sx={{
-
-          display: 'grid',
-          alignItems: 'center'
-        }}>
-          <Box textAlign="center" p={3}>
-            {/* Exibição dos dias */}
-
-
-            {/* Tooltip com o Instagram */}
-            <Tooltip title="Sugerido por @kimberly.oliveiraa">
+        <Container
+          sx={{
+            minHeight: '70vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            py: { xs: 4, md: 8 },
+          }}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              maxWidth: 1000,
+              bgcolor: themes.colors.Branco,
+              borderRadius: 3,
+              boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+              p: { xs: 3, md: 5 },
+              border: '1px solid rgba(0,0,0,0.06)'
+            }}
+          >
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
               <Typography
-                variant={isMobile ? 'h3' : 'h1'}
+                variant={isMobile ? 'h4' : 'h2'}
                 component="h1"
                 gutterBottom
+                sx={{
+                  fontWeight: 800,
+                  lineHeight: 1.05,
+                  background: `linear-gradient(90deg, ${themes.colors.Azul}, ${themes.colors.AzulEscuro})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
               >
-                <strong>{daysElapsed}</strong> / <strong>{totalDaysInYear}</strong> -{' '}
-                {year}
+                <strong>{daysElapsed}</strong> / <strong>{totalDaysInYear}</strong> — {year}
               </Typography>
-            </Tooltip>
-            {/* Exibição do dia da semana */}
-            <Typography
-              variant={isMobile ? 'h4' : 'h2'}
-              component="h2"
-              gutterBottom
-              textTransform={'uppercase'}
-            >
-              {today.format('dddd')}
-            </Typography>
-            <Typography variant="h3" component={'h2'} gutterBottom>
-              {currentTime.format('HH:mm:ss')}
-            </Typography>
-            {/* GIF - Adicionado */}
-            <Tooltip title="Sugerido por @gusta.http">
 
+              <Typography
+                variant={isMobile ? 'h6' : 'h5'}
+                component="h2"
+                gutterBottom
+                textTransform={'uppercase'}
+                sx={{ color: themes.colors.AzulEscuro, fontWeight: 600 }}
+              >
+                {today.format('dddd')}
+              </Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                <Image
-                  src="/gifdança.gif"
-                  alt="GIF sugerido por Gusta"
-                  width={600}          // largura em pixels
-                  height={400}         // altura em pixels
-                  style={{
-                    maxWidth: isMobile ? '80%' : '50%',
-                    height: 'auto',    // mantém a proporção
-                    borderRadius: '10px',
-                  }}
-                />
+              <Typography variant={isMobile ? 'h5' : 'h4'} component={'h3'} gutterBottom sx={{ mb: 2 }}>
+                {currentTime.format('HH:mm:ss')}
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, alignItems: 'center' }}>
+              <Box sx={{ flex: 1 }}>
+                <Tooltip title="Sugerido por @gusta.http">
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
+                    <Image
+                      src="/gifdança.gif"
+                      alt="GIF sugerido por Gusta"
+                      width={600}
+                      height={400}
+                      style={{
+                        maxWidth: isMobile ? '90%' : '100%',
+                        height: 'auto',
+                        borderRadius: 10,
+                      }}
+                    />
+                  </Box>
+                </Tooltip>
               </Box>
-            </Tooltip>
-            {/* Barra de progresso */}
-            <LinearProgress
-              variant="determinate"
-              value={progress}
-              sx={{ height: 10, borderRadius: 5 }}
-            />
 
-            {/* Porcentagem (opcional) */}
-            <Typography variant="body2" mt={1}>
-              {progress.toFixed(2)}% do ano concluído
-            </Typography>
+              <Box sx={{ flex: 1 }}>
+                <Box sx={{ mb: 2 }}>
+                  <LinearProgress
+                    variant="determinate"
+                    value={progress}
+                    sx={{
+                      height: 14,
+                      borderRadius: 10,
+                      backgroundColor: '#eee',
+                      '& .MuiLinearProgress-bar': {
+                        borderRadius: 10,
+                        background: `linear-gradient(90deg, ${themes.colors.AzulEscuro}, ${themes.colors.Azul})`,
+                      }
+                    }}
+                  />
+                </Box>
+
+                <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                  Progresso do ano
+                </Typography>
+
+                <Typography variant="body1" color="textSecondary" sx={{ mb: 2 }}>
+                  {progress.toFixed(2)}% concluído — {daysElapsed} de {totalDaysInYear} dias
+                </Typography>
+
+                <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.5 }}>Início do ano</Typography>
+                    <Typography variant="body2">1 de janeiro</Typography>
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.5 }}>Hoje</Typography>
+                    <Typography variant="body2">{today.format('LL')}</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Container>
       </Base>
     </>
-
   );
 };
 
