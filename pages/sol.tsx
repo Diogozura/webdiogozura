@@ -1,9 +1,12 @@
 // app/page.tsx (ou pages/index.tsx, dependendo do seu setup)
-'use client';
+"use client";
 
 import { useEffect, useState } from 'react';
-import { Box, Typography, Slider } from '@mui/material';
+import { Box, Typography, Slider, Dialog, DialogTitle, DialogContent, IconButton, Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { motion } from 'framer-motion';
+import Head from 'next/head';
+import Base from '@/src/components/common/Base';
 
 // Função para determinar cores e estado com base no horário
 function getSkyState(hour: number) {
@@ -47,11 +50,13 @@ function getSkyState(hour: number) {
 }
 
 function getRandomClouds(count: number) {
+  // return clouds with a layer (1..3) to vary speed
   return Array.from({ length: count }, (_, i) => ({
     id: i,
     top: Math.random() * 60 + 10,
     left: Math.random() * 100,
     size: Math.random() * 40 + 40,
+    layer: Math.floor(Math.random() * 3) + 1,
   }));
 }
 
@@ -61,15 +66,20 @@ function getRandomStars(count: number) {
     top: Math.random() * 100,
     left: Math.random() * 100,
     size: Math.random() * 2 + 1,
+    twinkleDelay: Math.random() * 3,
+    twinkleDuration: 1 + Math.random() * 2,
   }));
 }
 
 export default function SkyPage() {
   const [hour, setHour] = useState(new Date().getHours());
   const [skyState, setSkyState] = useState(getSkyState(hour));
-  const [clouds, setClouds] = useState(getRandomClouds(5));
-  const [stars, setStars] = useState(getRandomStars(50));
+  const [clouds, setClouds] = useState(getRandomClouds(6));
+  const [stars, setStars] = useState(getRandomStars(60));
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [meteors, setMeteors] = useState<any[]>([]);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [infoType, setInfoType] = useState<'sun'|'moon'|null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,27 +90,51 @@ export default function SkyPage() {
 
   useEffect(() => {
     setSkyState(getSkyState(hour));
-    setClouds(getRandomClouds(5));
-    setStars(getRandomStars(50));
+    setClouds(getRandomClouds(6));
+    setStars(getRandomStars(60));
   }, [hour]);
 
+  // Meteors generator
+  useEffect(() => {
+    const iv = setInterval(() => {
+      if (Math.random() > 0.85) {
+        const id = Date.now() + Math.random();
+        const startTop = Math.random() * 40 + 5; // 5%..45%
+        const size = 2 + Math.random() * 3;
+        const duration = 0.8 + Math.random() * 1.2;
+        setMeteors(m => [...m, { id, startTop, size, duration }] );
+        // remove after animation
+        setTimeout(() => setMeteors(m => m.filter(x => x.id !== id)), (duration + 0.2) * 1000);
+      }
+    }, 1500);
+    return () => clearInterval(iv);
+  }, []);
+
   return (
-    <Box
-      sx={{
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: skyState.bgColor,
-        transition: 'background-color 2s ease',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Estrelas */}
+    <>
+      <Head>
+        <title>Sol e Lua - Diogo zura</title>
+      </Head>
+      <Base>
+        <Box
+          sx={{
+            width: '100%',
+            minHeight: 'calc(100vh - 64px)',
+            backgroundColor: skyState.bgColor,
+            transition: 'background-color 2s ease',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+      {/* Estrelas (twinkle) */}
       {skyState.showStars &&
         stars.map((star) => (
-          <Box
+          <motion.div
             key={star.id}
-            sx={{
+            initial={{ opacity: 0.2 }}
+            animate={{ opacity: [0.2, 1, 0.2] }}
+            transition={{ duration: star.twinkleDuration, repeat: Infinity, delay: star.twinkleDelay }}
+            style={{
               position: 'absolute',
               top: `${star.top}%`,
               left: `${star.left}%`,
@@ -108,32 +142,55 @@ export default function SkyPage() {
               height: star.size,
               backgroundColor: '#fff',
               borderRadius: '50%',
-              opacity: 0.8,
             }}
           />
         ))}
 
-      {/* Nuvens */}
+      {/* Meteoros */}
+      {meteors.map(m => (
+        <motion.div
+          key={m.id}
+          initial={{ x: '-10%', y: `${m.startTop}%`, opacity: 1 }}
+          animate={{ x: '120%', y: `${m.startTop + 30}%`, opacity: 0.6 }}
+          transition={{ duration: m.duration, ease: 'linear' }}
+          style={{
+            position: 'absolute',
+            width: m.size * 3,
+            height: 2,
+            background: 'linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,0))',
+            transform: 'rotate(-25deg)',
+            left: '-10%'
+          }}
+        />
+      ))}
+
+      {/* Nuvens (camadas parallax) */}
       {skyState.showClouds &&
-        clouds.map((cloud) => (
-          <motion.div
-            key={cloud.id}
-            initial={{ x: '-100%' }}
-            animate={{ x: '120%' }}
-            transition={{ duration: 60 + Math.random() * 40, repeat: Infinity, ease: 'linear' }}
-            style={{
-              position: 'absolute',
-              top: `${cloud.top}%`,
-              left: `${cloud.left}%`,
-              width: cloud.size,
-              height: cloud.size / 2,
-              backgroundColor: '#fff',
-              borderRadius: '50%',
-              opacity: 0.6,
-              filter: 'blur(2px)',
-            }}
-          />
-        ))}
+        clouds.map((cloud) => {
+          const baseDur = cloud.layer === 1 ? 70 : cloud.layer === 2 ? 110 : 160;
+          const dur = baseDur + Math.random() * 80;
+          const opacity = cloud.layer === 1 ? 0.9 : cloud.layer === 2 ? 0.7 : 0.45;
+          const sizeMul = cloud.layer === 1 ? 1.2 : cloud.layer === 2 ? 1 : 0.8;
+          return (
+            <motion.div
+              key={cloud.id}
+              initial={{ x: '-120%' }}
+              animate={{ x: '120%' }}
+              transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
+              style={{
+                position: 'absolute',
+                top: `${cloud.top}%`,
+                left: `${cloud.left}%`,
+                width: cloud.size * sizeMul,
+                height: (cloud.size * sizeMul) / 2,
+                backgroundColor: '#fff',
+                borderRadius: '50%',
+                opacity,
+                filter: 'blur(3px)',
+              }}
+            />
+          );
+        })}
 
       {/* Sol/Lua */}
       <motion.div
@@ -150,8 +207,26 @@ export default function SkyPage() {
           left: '50%',
           transform: 'translateX(-50%)',
           boxShadow: '0 0 60px rgba(255,255,255,0.3)',
+          cursor: 'pointer',
         }}
+        onClick={() => { setInfoType(skyState.showStars ? 'moon' : 'sun'); setInfoOpen(true); }}
       />
+
+      {/* Info dialog for sun/moon */}
+      <Dialog open={infoOpen} onClose={() => setInfoOpen(false)}>
+        <DialogTitle>
+          {infoType === 'sun' ? 'Sol — Informações' : infoType === 'moon' ? 'Lua — Informações' : 'Informações'}
+          <IconButton aria-label="close" onClick={() => setInfoOpen(false)} sx={{ position: 'absolute', right: 8, top: 8 }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ mb: 1 }}>Hora atual: {currentTime.toLocaleTimeString()}</Typography>
+          <Typography sx={{ mb: 1 }}>Estado: {skyState.label}</Typography>
+          <Typography sx={{ mb: 1 }}>Clique no sol/lua para abrir este painel.</Typography>
+          <Button variant="contained" onClick={() => { setInfoOpen(false); }}>Fechar</Button>
+        </DialogContent>
+      </Dialog>
 
       {/* Texto de horário */}
       <Box
@@ -204,6 +279,8 @@ export default function SkyPage() {
           valueLabelDisplay="auto"
         />
       </Box>
-    </Box>
+        </Box>
+      </Base>
+    </>
   );
 }
