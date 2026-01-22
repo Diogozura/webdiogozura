@@ -224,6 +224,34 @@ export default function Home() {
                                             </Typography>
                                         </CardContent>
                                     </Card>
+                                    <Card
+                                        sx={{
+                                            background: `linear-gradient(135deg, ${themes.colors.Vermelho}20 0%, transparent 100%)`,
+                                            border: `2px solid ${themes.colors.Vermelho}`,
+                                            borderRadius: 2,
+                                            transition: 'all 0.3s ease',
+                                            cursor: 'pointer',
+                                            width: '100%',
+                                            maxWidth: 520,
+                                            mx: 'auto',
+                                            boxSizing: 'border-box',
+                                            '&:hover': {
+                                                transform: 'translateY(-8px)',
+                                                boxShadow: `0 15px 40px ${themes.colors.Vermelho}30`,
+                                            }
+                                        }}
+                                        component={Link}
+                                        href="/mares"
+                                    >
+                                        <CardContent sx={{ py: 2, px: 2 }}>
+                                            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                                                🌊 Marés
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary">
+                                                Acompanhe as marés na sua localização
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
                                 </Box>
                             </Grid>
                         </Grid>

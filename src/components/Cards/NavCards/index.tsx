@@ -3,6 +3,7 @@ import { Box, Card, CardContent, Typography } from '@mui/material';
 import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import WaterIcon from '@mui/icons-material/Water';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { themes } from '@/styles/theme';
 
@@ -17,6 +18,7 @@ type NavItem = {
 const defaultItems: NavItem[] = [
   { href: '/', title: 'Home', description: 'Voltar para a página inicial', color: themes.colors.Azul, icon: <HomeIcon /> },
   { href: '/sol', title: 'Sol e Lua', description: 'Acompanhe os astros', color: themes.colors.Vermelho, icon: <WbSunnyIcon /> },
+  { href: '/mares', title: 'Marés', description: 'Informações de marés na sua localização', color: themes.colors.Azul, icon: <WaterIcon /> },
 ];
 
 export default function NavCards({ items = defaultItems }: { items?: NavItem[] }) {
