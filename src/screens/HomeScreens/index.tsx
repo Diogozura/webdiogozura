@@ -25,8 +25,8 @@ export default function Home() {
     };
 
     return (
-        <>
-            <Base>
+        <Base>
+            <>
                 {/* Hero Section */}
                 <Box
                     component="section"
@@ -69,7 +69,7 @@ export default function Home() {
                     <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
                         <Grid container spacing={4} alignItems="center">
                             {/* Conteúdo Text */}
-                            <Grid item xs={12} md={6}>
+                            <Grid size={{xs: 12, md: 6}}>
                                 <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
                                     <Typography
                                         variant="h1"
@@ -156,7 +156,7 @@ export default function Home() {
                             </Grid>
 
                             {/* Quick Links */}
-                            <Grid item xs={12} md={6}>
+                            <Grid size={{xs: 12, md: 6}}>
                                 <Box
                                     sx={{
                                         display: 'grid',
@@ -284,7 +284,7 @@ export default function Home() {
                         </Container>
                     </Box>
                 )}
-            </Base>
-        </>
+            </>
+        </Base>
     );
 }
