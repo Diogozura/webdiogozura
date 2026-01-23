@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, Chip } from '@mui/material';
+import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, Chip, LinearProgress } from '@mui/material';
 import { TideData } from '@/src/hooks/useTideAPI';
 import { themes } from '@/styles/theme';
 import WaterIcon from '@mui/icons-material/Water';
@@ -40,6 +40,84 @@ export default function TideCard({ tide, loading, error }: TideCardProps) {
       }}
     >
       <CardContent>
+        {/* Status atual (enchendo / esvaziando) */}
+        {(!loading && !error) && (() => {
+          // coletar eventos de maré disponíveis
+          const events: { type: 'high' | 'low'; timeStr: string; height?: number | null; when?: Date }[] = [];
+          if (tide.high_tide_1) events.push({ type: 'high', timeStr: tide.high_tide_1, height: tide.high_tide_1_height });
+          if (tide.low_tide_1) events.push({ type: 'low', timeStr: tide.low_tide_1, height: tide.low_tide_1_height });
+          if (tide.high_tide_2) events.push({ type: 'high', timeStr: tide.high_tide_2, height: tide.high_tide_2_height });
+          if (tide.low_tide_2) events.push({ type: 'low', timeStr: tide.low_tide_2, height: tide.low_tide_2_height });
+
+          const parseTime = (dateStr: string, timeStr: string) => {
+            if (!timeStr) return null;
+            // try ISO date (YYYY-MM-DD)
+            const isoMatch = /^(\d{4})-(\d{2})-(\d{2})/.exec(dateStr || '');
+            try {
+              if (isoMatch) {
+                // create Date from dateStr + time
+                return new Date(`${dateStr}T${timeStr}:00`);
+              }
+            } catch (e) {
+              // fallback
+            }
+            // fallback: use today's date with provided time
+            const now = new Date();
+            const [hh, mm] = (timeStr || '00:00').split(':').map((s) => parseInt(s, 10) || 0);
+            const d = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0);
+            return d;
+          };
+
+          const enriched = events
+            .map((ev) => ({ ...ev, when: parseTime(tide.date, ev.timeStr) }))
+            .filter((e) => e.when instanceof Date && !isNaN(e.when.getTime()))
+            .sort((a, b) => (a.when!.getTime() - b.when!.getTime()));
+
+          const now = new Date();
+          // find next event
+          const nextIdx = enriched.findIndex((e) => e.when!.getTime() > now.getTime());
+          const next = nextIdx >= 0 ? enriched[nextIdx] : enriched[0] || null;
+          const prev = nextIdx > 0 ? enriched[nextIdx - 1] : (enriched.length > 0 ? enriched[enriched.length - 1] : null);
+
+          let isRising: boolean | null = null;
+          let progress = 0;
+          if (prev && next) {
+            isRising = prev.type === 'low' && next.type === 'high';
+            const total = next.when!.getTime() - prev.when!.getTime();
+            const elapsed = now.getTime() - prev.when!.getTime();
+            progress = Math.max(0, Math.min(100, Math.round((elapsed / total) * 100)));
+          }
+
+          // próximos picos
+          const nextHigh = enriched.find((e) => e.type === 'high' && e.when!.getTime() >= now.getTime());
+          const nextLow = enriched.find((e) => e.type === 'low' && e.when!.getTime() >= now.getTime());
+
+          return (
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 1 }}>
+                <Chip
+                  label={isRising == null ? 'Status: —' : isRising ? 'Enchendo' : 'Esvaziando'}
+                  color={isRising ? 'primary' : 'default'}
+                  sx={{ fontWeight: 700 }}
+                />
+                {nextHigh && (
+                  <Typography variant="body2">Próxima Maré Alta: {nextHigh.timeStr}</Typography>
+                )}
+                {nextLow && (
+                  <Typography variant="body2">Próxima Maré Baixa: {nextLow.timeStr}</Typography>
+                )}
+              </Box>
+              {prev && next && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ flex: 1 }}>
+                    <LinearProgress variant="determinate" value={progress} sx={{ height: 10, borderRadius: 2 }} />
+                    <Typography variant="caption">Progresso: {progress}%</Typography>
+                  </Box>
+                </Box>
+              )}
+            </Box>
+          );
+        })()}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <WaterIcon sx={{ mr: 1, color: themes.colors.Azul }} />
           <Typography variant="h6" sx={{ fontWeight: 700 }}>

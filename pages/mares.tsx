@@ -14,15 +14,36 @@ import { useGeolocation } from '@/src/hooks/useGeolocation';
 import { useTideAPI } from '@/src/hooks/useTideAPI';
 import { useEffect } from 'react';
 import TideCard from '@/src/components/TideCard';
+import HarborTabua from '@/src/components/HarborTabua';
 import { themes } from '@/styles/theme';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { motion } from 'framer-motion';
 
 export default function MaresPage() {
   const { location, loading: geoLoading, error: geoError } = useGeolocation();
-  const [selectedDate, setSelectedDate] = useState<string>(
-    new Date().toISOString().split('T')[0]
-  );
+  // initialize with today's date using UTC date to avoid timezone shift
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const now = new Date();
+    // use toISOString to get UTC date, then extract YYYY-MM-DD
+    const isoDate = now.toISOString().split('T')[0];
+    return isoDate;
+  });
+
+  const shiftDate = (deltaDays: number) => {
+    setSelectedDate((prev) => {
+      const base = prev ? new Date(`${prev}T00:00:00Z`) : new Date();
+      base.setUTCDate(base.getUTCDate() + deltaDays);
+      return base.toISOString().split('T')[0];
+    });
+  };
+
+  const formatDateBR = (iso: string) => {
+    const [y, m, d] = iso.split('-').map((n) => Number(n));
+    if (!y || !m || !d) return iso;
+    return `${d.toString().padStart(2, '0')}/${m.toString().padStart(2, '0')}/${y}`;
+  };
 
   const tideOptions = location
     ? {
@@ -46,11 +67,15 @@ export default function MaresPage() {
     const loadStates = async () => {
       try {
         const resp = await fetch('/api/tides/states');
-        if (!resp.ok) return;
+        if (!resp.ok) {
+          console.error('loadStates: resp not ok', resp.status);
+          return;
+        }
         const json = await resp.json();
+        console.log('loadStates response:', json);
         setStatesList(json.states || []);
       } catch (e) {
-        // ignore
+        console.error('loadStates error:', e);
       }
     };
     loadStates();
@@ -61,11 +86,15 @@ export default function MaresPage() {
     const loadHarbors = async () => {
       try {
         const resp = await fetch(`/api/tides/harbors?state=${encodeURIComponent(selectedState)}`);
-        if (!resp.ok) return;
+        if (!resp.ok) {
+          console.error('loadHarbors: resp not ok', resp.status);
+          return;
+        }
         const json = await resp.json();
+        console.log('loadHarbors response:', json);
         setHarborsList(json.harbors || []);
       } catch (e) {
-        // ignore
+        console.error('loadHarbors error:', e);
       }
     };
     loadHarbors();
@@ -76,22 +105,76 @@ export default function MaresPage() {
     if (!selectedHarbor) return;
     const loadTabua = async () => {
       try {
-        const resp = await fetch(`/api/tides/by-harbor?harbor=${encodeURIComponent(selectedHarbor)}&date=${selectedDate}`);
-        if (!resp.ok) return;
+        // call the explicit tabua-mare proxy which maps to /api/v2/tabua-mare/{harbor}/{month}/{days}
+        // parse selectedDate as YYYY-MM-DD to avoid UTC timezone shifts
+        const parts = String(selectedDate).split('-').map((v) => Number(v));
+        const year = parts[0] || new Date().getFullYear();
+        const month = parts[1] || (new Date().getMonth() + 1);
+        const day = parts[2] || new Date().getDate();
+        const daysParam = encodeURIComponent(`[${day}]`);
+        const resp = await fetch(`/api/tides/tabua-mare?harbor=${encodeURIComponent(selectedHarbor)}&month=${month}&days=${daysParam}`);
+        if (!resp.ok) {
+          console.error('loadTabua: resp not ok', resp.status);
+          return;
+        }
         const json = await resp.json();
-        const arr = json?.tabua?.data || json?.tabua || [];
-        setManualTides(arr);
+        console.log('loadTabua (tabua-mare) response:', json);
+        // Normalize response shapes:
+        // - { months: [...] } -> [obj]
+        // - { data: [ { months: [...] } ] } -> data array
+        // - array -> use as-is
+        if (!json) {
+          setManualTides([]);
+        } else if (Array.isArray(json)) {
+          setManualTides(json);
+        } else if (json.months) {
+          setManualTides([json]);
+        } else if (Array.isArray(json.data) && json.data.length > 0) {
+          setManualTides(json.data);
+        } else {
+          setManualTides([]);
+        }
       } catch (e) {
-        // ignore
+        console.error('loadTabua error:', e);
       }
     };
     loadTabua();
   }, [selectedHarbor, selectedDate]);
 console.log('tides', tides);
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(e.target.value);
+  // additional UI data
+  const [harborDetails, setHarborDetails] = React.useState<any | null>(null);
+  const [geoTabuaResult, setGeoTabuaResult] = React.useState<any | null>(null);
+
+  const fetchHarborDetails = async (id: string) => {
+    try {
+      setHarborDetails(null);
+      const resp = await fetch(`/api/tides/harbors-by-ids?ids=${encodeURIComponent(id)}`);
+      if (!resp.ok) throw new Error('Falha ao obter detalhes do porto');
+      const json = await resp.json();
+      console.log('fetchHarborDetails response:', json);
+      setHarborDetails(json.harbors || json);
+    } catch (e: any) {
+      console.error('fetchHarborDetails error:', e);
+      setHarborDetails({ error: e.message || String(e) });
+    }
   };
 
+  const fetchGeoTabua = async (lat: number, lng: number, stateCode: string, dateStr: string) => {
+    try {
+      setGeoTabuaResult(null);
+      const resp = await fetch(`/api/tides/geo-tabua?lat=${encodeURIComponent(String(lat))}&lng=${encodeURIComponent(String(lng))}&state=${encodeURIComponent(stateCode)}&date=${encodeURIComponent(dateStr)}`);
+      if (!resp.ok) throw new Error('Falha ao obter tábua por geolocalização');
+      const json = await resp.json();
+      console.log('fetchGeoTabua response:', json);
+      setGeoTabuaResult(json.geo || json);
+      // if geo returned a tabua, map to manualTides for display
+      const arr = json?.geo?.data || json?.geo?.tabua?.data || json?.geo?.tabua || [];
+      if (Array.isArray(arr)) setManualTides(arr);
+    } catch (e: any) {
+      console.error('fetchGeoTabua error:', e);
+      setGeoTabuaResult({ error: e.message || String(e) });
+    }
+  };
   return (
     <>
       <Head>
@@ -140,51 +223,52 @@ console.log('tides', tides);
             </Alert>
           )}
 
-          {location && !geoLoading && (
-            <Alert severity="success" sx={{ mb: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <LocationOnIcon fontSize="small" />
-                <Typography variant="body2">
-                  Localização: {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-                  {location.accuracy && ` (precisão: ±${location.accuracy.toFixed(0)}m)`}
-                </Typography>
-              </Box>
-            </Alert>
-          )}
+          
 
-          {/* Seletor de Data */}
-          {location && (
-            <Box sx={{ mb: 4, display: 'flex', gap: 2, alignItems: 'flex-end' }}>
-              <TextField
-                type="date"
-                label="Data"
-                value={selectedDate}
-                onChange={handleDateChange}
-                InputLabelProps={{ shrink: true }}
-                inputProps={{
-                  max: new Date().toISOString().split('T')[0],
-                }}
-                sx={{ flex: 1 }}
-              />
-              <Button
-                variant="contained"
-                startIcon={<RefreshIcon />}
-                sx={{
-                  background: `linear-gradient(135deg, ${themes.colors.Azul} 0%, ${themes.colors.AzulEscuro} 100%)`,
-                  color: '#fff',
-                }}
-                onClick={() => {
-                  // refresh manual fetch when user is manual selecting
-                  if (selectedHarbor) setSelectedHarbor((s) => s);
-                }}
-              >
-                Atualizar
-              </Button>
-            </Box>
-          )}
+          {/* Controles de navegação de data (carrossel simples) */}
+          <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            <Button
+              variant="outlined"
+              onClick={() => shiftDate(-1)}
+              aria-label="Dia anterior"
+              sx={{ minWidth: 44, width: 48, height: 48, borderRadius: '999px', p: 0.5, borderColor: `${themes.colors.Azul}55` }}
+            >
+              <ArrowBackIosNewIcon fontSize="small" />
+            </Button>
+
+            <motion.div
+              key={selectedDate}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 0.3 }}>
+                {(() => {
+                  // display selectedDate - 1 day
+                  try {
+                    const d = new Date(`${selectedDate}T00:00:00Z`);
+                    d.setUTCDate(d.getUTCDate() - 1);
+                    return formatDateBR(d.toISOString().split('T')[0]);
+                  } catch (e) {
+                    return formatDateBR(selectedDate);
+                  }
+                })()}
+              </Typography>
+            </motion.div>
+
+            <Button
+              variant="outlined"
+              onClick={() => shiftDate(1)}
+              aria-label="Próximo dia"
+              sx={{ minWidth: 44, width: 48, height: 48, borderRadius: '999px', p: 0.5, borderColor: `${themes.colors.Azul}55` }}
+            >
+              <ArrowForwardIosIcon fontSize="small" />
+            </Button>
+          </Box>
 
           {/* Fallback: selecionar estado/porto caso localização não esteja disponível */}
-          {!location && !geoLoading && (
+          {(!location || geoError) && !geoLoading && (
             <Box sx={{ mb: 4 }}>
               <Alert severity="info" sx={{ mb: 2 }}>
                 Não foi possível obter sua localização. Escolha seu estado abaixo para procurar portos.
@@ -221,6 +305,13 @@ console.log('tides', tides);
                     </option>
                   ))}
                 </TextField>
+                <Button
+                  variant="outlined"
+                  onClick={() => selectedHarbor && fetchHarborDetails(selectedHarbor)}
+                  sx={{ height: 40 }}
+                >
+                  Ver detalhes
+                </Button>
               </Box>
             </Box>
           )}
@@ -233,6 +324,24 @@ console.log('tides', tides);
             </Box>
           )}
 
+          {/* Mostrar detalhes do porto, se houver */}
+          {harborDetails && (
+            <Box sx={{ my: 2 }}>
+              <Alert severity={harborDetails.error ? 'error' : 'info'}>
+                <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{JSON.stringify(harborDetails, null, 2)}</pre>
+              </Alert>
+            </Box>
+          )}
+
+          {/* Botão para buscar tábua usando geolocalização dentro do estado selecionado */}
+          {location && selectedState && (
+            <Box sx={{ mb: 2 }}>
+              <Button variant="outlined" onClick={() => fetchGeoTabua(location.latitude, location.longitude, selectedState, selectedDate)}>
+                Buscar tábua no estado selecionado (geo)
+              </Button>
+            </Box>
+          )}
+
           {/* Erro na API */}
           {tideError && (
             <Alert severity="error" sx={{ mb: 3 }}>
@@ -241,7 +350,17 @@ console.log('tides', tides);
           )}
 
           {/* Dados de Marés (geolocal ou manual) */}
-          {manualTides && manualTides.length > 0 && (
+          {/** If the data contains harbor/months structure, use HarborTabua */}
+          {manualTides && manualTides.length > 0 && manualTides[0]?.months && (
+            <HarborTabua tabua={manualTides[0]} selectedDate={selectedDate} />
+          )}
+
+          {tides && tides.length > 0 && tides[0]?.months && (
+            <HarborTabua tabua={tides[0]} selectedDate={selectedDate} />
+          )}
+
+          {/** Otherwise, if we have array of simple tide day objects, render TideCard */}
+          {manualTides && Array.isArray(manualTides) && manualTides.length > 0 && !manualTides[0]?.months && (
             <Box sx={{ display: 'grid', gap: 2 }}>
               {manualTides.map((tide: any, idx: number) => (
                 <TideCard key={`m-${idx}`} tide={tide} />
@@ -249,7 +368,7 @@ console.log('tides', tides);
             </Box>
           )}
 
-          {(!manualTides || manualTides.length === 0) && tides && tides.length > 0 && (
+          {tides && Array.isArray(tides) && tides.length > 0 && !tides[0]?.months && (
             <Box sx={{ display: 'grid', gap: 2 }}>
               {tides.map((tide, idx) => (
                 <TideCard key={idx} tide={tide} />
