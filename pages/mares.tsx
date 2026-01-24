@@ -207,6 +207,12 @@ console.log('tides', tides);
             <Typography variant="h6" color="textSecondary">
               Informações de marés para sua localização
             </Typography>
+            <Box sx={{ mt: 1 }}>
+              <Typography variant="caption" color="textSecondary">
+                Dados de marés: Marinha do Brasil — fornecedor da API:&nbsp;
+                <a href="https://tabuamare.devtu.qzz.io/docs" target="_blank" rel="noopener noreferrer">tabuamare.devtu.qzz.io/docs</a>
+              </Typography>
+            </Box>
           </Box>
 
           {/* Status de Localização */}
