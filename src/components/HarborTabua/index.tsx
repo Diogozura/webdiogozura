@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Box, Card, CardContent, Typography, Grid, Divider, Chip } from '@mui/material';
 import WaterIcon from '@mui/icons-material/Water';
+import WavesIcon from '@mui/icons-material/Waves';
 import { themes } from '@/styles/theme';
 
 interface HarborTabuaProps {
@@ -83,6 +84,76 @@ function isSameDateISO(dateIso?: string, d = new Date()) {
   return d.getFullYear() === y && d.getMonth() === mo && d.getDate() === da;
 }
 
+function generateHourlyTides(events: { label: string; time?: string; height?: number | string }[]) {
+  const parsedEvents = events
+    .map(e => {
+      if (!e.time) return null;
+      const [h, m] = e.time.split(':').map(Number);
+      const minutes = h * 60 + m;
+      const height = Number(e.height);
+      return { minutes, height };
+    })
+    .filter((e): e is { minutes: number; height: number } => e !== null && !isNaN(e.height));
+
+  parsedEvents.sort((a, b) => a.minutes - b.minutes);
+  
+  if (parsedEvents.length === 0) return [];
+
+  const hours = [];
+  // Determine min/max for the day to calibrate icons
+  const minH = Math.min(...parsedEvents.map(e => e.height));
+  const maxH = Math.max(...parsedEvents.map(e => e.height));
+  const range = maxH - minH || 1;
+
+  for (let h = 0; h < 24; h++) {
+    const currentMinutes = h * 60;
+    
+    // clamp edges to nearest known event
+    let prev = parsedEvents[0];
+    let next = parsedEvents[parsedEvents.length - 1];
+    
+    for (let i = 0; i < parsedEvents.length; i++) {
+        if (parsedEvents[i].minutes <= currentMinutes) prev = parsedEvents[i];
+        if (parsedEvents[i].minutes >= currentMinutes) {
+            next = parsedEvents[i];
+            break;
+        }
+    }
+
+    let interpolatedHeight = 0;
+    if (parsedEvents.length === 1) {
+       interpolatedHeight = parsedEvents[0].height;
+    } else {
+        if (currentMinutes <= parsedEvents[0].minutes) {
+             // Clamp to first
+             interpolatedHeight = parsedEvents[0].height;
+        } else if (currentMinutes >= parsedEvents[parsedEvents.length-1].minutes) {
+             // Clamp to last
+             interpolatedHeight = parsedEvents[parsedEvents.length-1].height;
+        } else {
+            const timeDiff = next.minutes - prev.minutes;
+            if (timeDiff === 0) {
+                interpolatedHeight = prev.height;
+            } else {
+                 const ratio = (currentMinutes - prev.minutes) / timeDiff;
+                 // Cosine interpolation
+                 interpolatedHeight = prev.height + (next.height - prev.height) * (1 - Math.cos(ratio * Math.PI)) / 2;
+            }
+        }
+    }
+    
+    // Classification of wave size
+    // 0..33% -> small, 33..66% -> medium, 66..100% -> large
+    const pct = (interpolatedHeight - minH) / range;
+    let waveSize: 'small' | 'medium' | 'large' = 'medium';
+    if(pct < 0.33) waveSize = 'small';
+    else if(pct > 0.66) waveSize = 'large';
+
+    hours.push({ hour: h, height: interpolatedHeight, waveSize });
+  }
+  return hours;
+}
+
 export default function HarborTabua({ tabua, selectedDate }: HarborTabuaProps) {
   if (!tabua) return null;
 
@@ -125,46 +196,68 @@ export default function HarborTabua({ tabua, selectedDate }: HarborTabuaProps) {
 
                     <Divider sx={{ mb: 2 }} />
 
-                    {/* container de eventos: ocupa o espaço restante e distribui eventos verticalmente */}
-                    <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1, py: 1 }}>
-                      {/* linha vertical da timeline */}
-                      <Box sx={{ position: 'absolute', left: 40, top: 0, bottom: 0, width: 2, bgcolor: '#e6eef4' }} />
-
+                    {/* Visualização Horizontal por Hora (Estilo Previsão do Tempo) */}
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        overflowX: 'auto', 
+                        gap: 1.5,
+                        mt: 2,
+                        pb: 1,
+                        scrollBehavior: 'smooth',
+                        '&::-webkit-scrollbar': { height: 6 },
+                        '&::-webkit-scrollbar-track': { background: 'transparent' },
+                        '&::-webkit-scrollbar-thumb': { backgroundColor: '#dde4eb', borderRadius: 4 },
+                        maskImage: 'linear-gradient(to right, black 85%, transparent 100%)'
+                      }}
+                    >
                       {events.length === 0 ? (
                         <Typography variant="body2" color="textSecondary">Sem dados estruturados</Typography>
                       ) : (
-                        events
-                          .sort((a, b) => (a.time || '').localeCompare(b.time || ''))
-                          .map((ev, ei) => {
-                            const hnum = typeof ev.height === 'number' ? ev.height : (ev.height != null ? Number(ev.height) : NaN);
-                            const labelLower = String(ev.label || '').toLowerCase();
-                            const isHigh = labelLower.includes('high') || labelLower.includes('alta') || (hnum > 1);
-                            const isLow = labelLower.includes('low') || labelLower.includes('baixa') || (hnum <= 1);
-                            const eventDate = parseDateTime(dateIso || selectedDate || '', ev.time);
-                            const isPast = isToday && eventDate ? eventDate.getTime() < new Date().getTime() : false;
+                        generateHourlyTides(events).map((hStep) => {
+                            const currentHour = new Date().getHours();
+                            const isPast = isToday && hStep.hour < currentHour;
+                            const isCurrent = isToday && hStep.hour === currentHour;
 
                             return (
-                              <Box key={`ev-${ei}`} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, px: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                  <Box sx={{ ml: 2, zIndex: 2 }}>
-                                    <Box sx={{ width: 18, height: 18, borderRadius: '50%', bgcolor: isHigh ? themes.colors.Azul : isLow ? themes.colors.Vermelho : '#bfcad3', border: `3px solid ${'#fff'}`, boxShadow: '0 2px 6px rgba(0,0,0,0.06)' }} />
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="h6" sx={{ fontWeight: 800, color: isPast ? 'text.secondary' : 'text.primary', textDecoration: isPast ? 'line-through' : 'none' }}>{formatTimeShort(String(ev.time || '—'))}</Typography>
-                                    <Typography variant="caption" color={isPast ? 'text.secondary' : 'text.secondary'}>{isHigh ? 'Maré alta' : isLow ? 'Maré baixa' : ev.label.replace(/_/g, ' ')}</Typography>
-                                  </Box>
-                                </Box>
+                                <Box 
+                                  key={hStep.hour}
+                                  ref={(el: HTMLDivElement | null) => {
+                                      if (el && isCurrent) {
+                                          // Scroll to center this element
+                                          el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                                      }
+                                  }}
+                                  sx={{ 
+                                    minWidth: 70,
+                                    display: 'flex', 
+                                    flexDirection: 'column', 
+                                    alignItems: 'center', 
+                                    gap: 1,
+                                    p: 1.5, 
+                                    borderRadius: 3, 
+                                    bgcolor: isCurrent ? themes.colors.Azul : '#f8fafd',
+                                    color: isCurrent ? '#fff' : 'inherit',
+                                    opacity: isPast ? 0.5 : 1,
+                                    transition: 'all 0.3s ease'
+                                  }}
+                                >
+                                    <Typography variant="caption" sx={{ fontWeight: 700, opacity: 0.8 }}>
+                                        {String(hStep.hour).padStart(2, '0')}:00
+                                    </Typography>
 
-                                <Box>
-                                  {ev.height != null && !isNaN(Number(ev.height)) ? (
-                                    <Chip label={`${Number(ev.height).toFixed(2)} m`} size="small" sx={{ bgcolor: '#f3f6f8', fontWeight: 700 }} />
-                                  ) : (
-                                    ev.height != null && <Chip label={`${String(ev.height)} m`} size="small" />
-                                  )}
+                                    <WavesIcon sx={{ 
+                                        fontSize: hStep.waveSize === 'small' ? 20 : hStep.waveSize === 'large' ? 32 : 24,
+                                        color: isCurrent ? '#fff' : themes.colors.Azul,
+                                        opacity: hStep.waveSize === 'small' ? 0.7 : 1
+                                    }} />
+
+                                    <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                                        {hStep.height.toFixed(1)}m
+                                    </Typography>
                                 </Box>
-                              </Box>
                             );
-                          })
+                        })
                       )}
                     </Box>
                   </Card>

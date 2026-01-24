@@ -16,7 +16,7 @@ export default function Footer() {
        },
        {
         nome: 'Instagram',
-        link:'https://instagram.com/dziogo'
+        link:'https://instagram.com/diogo_zra'
        },
     ]
     
