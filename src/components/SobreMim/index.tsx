@@ -39,7 +39,7 @@ export default function SobreMim() {
         <Box component="section">
             <Grid container spacing={4}>
                 {sobreeu.map(({ Titulo, descricao }, index) => (
-                    <Grid item xs={12} md={6} key={index}>
+                    <Grid size={{xs: 12, md: 6}} key={index}>
                         <Box sx={{ mb: 2 }}>
                             <Typography
                                 component="h3"

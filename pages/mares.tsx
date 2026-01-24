@@ -244,16 +244,7 @@ console.log('tides', tides);
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
               <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 0.3 }}>
-                {(() => {
-                  // display selectedDate - 1 day
-                  try {
-                    const d = new Date(`${selectedDate}T00:00:00Z`);
-                    d.setUTCDate(d.getUTCDate() - 1);
-                    return formatDateBR(d.toISOString().split('T')[0]);
-                  } catch (e) {
-                    return formatDateBR(selectedDate);
-                  }
-                })()}
+                {selectedDate ? formatDateBR(selectedDate) : '—'}
               </Typography>
             </motion.div>
 
@@ -355,7 +346,7 @@ console.log('tides', tides);
             <HarborTabua tabua={manualTides[0]} selectedDate={selectedDate} />
           )}
 
-          {tides && tides.length > 0 && tides[0]?.months && (
+          {tides && tides.length > 0 && (tides[0] as any).months && (
             <HarborTabua tabua={tides[0]} selectedDate={selectedDate} />
           )}
 
@@ -368,7 +359,7 @@ console.log('tides', tides);
             </Box>
           )}
 
-          {tides && Array.isArray(tides) && tides.length > 0 && !tides[0]?.months && (
+          {tides && Array.isArray(tides) && tides.length > 0 && !(tides[0] as any).months && (
             <Box sx={{ display: 'grid', gap: 2 }}>
               {tides.map((tide, idx) => (
                 <TideCard key={idx} tide={tide} />
