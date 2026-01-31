@@ -53,13 +53,13 @@ export default function App({ Component, pageProps }: AppProps) {
         {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
 
       </Head>
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-4G27WSXMW2" />
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-XF60DE225Q" />
       <Script id="gtag-init" strategy="afterInteractive">
         {`
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-4G27WSXMW2', {
+    gtag('config', 'G-XF60DE225Q', {
       page_path: window.location.pathname,
     });
   `}
