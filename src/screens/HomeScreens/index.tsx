@@ -5,6 +5,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import { themes } from "@/styles/theme";
 import SobreMim from "@/src/components/SobreMim";
+import WebsiteDevelopment from "@/src/components/WebsiteDevelopment";
 import React, { useRef, useEffect } from "react";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -155,108 +156,13 @@ export default function Home() {
                                 </Box>
                             </Grid>
 
-                            {/* Quick Links */}
-                            <Grid size={{xs: 12, md: 6}}>
-                                <Box
-                                    sx={{
-                                        display: 'grid',
-                                        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                                        gap: 2,
-                                        justifyItems: 'center',
-                                        alignItems: 'start',
-                                        width: '100%'
-                                    }}
-                                >
-                                    <Card
-                                        sx={{
-                                            background: `linear-gradient(135deg, ${themes.colors.Azul}20 0%, transparent 100%)`,
-                                            border: `2px solid ${themes.colors.Azul}`,
-                                            borderRadius: 2,
-                                            transition: 'all 0.3s ease',
-                                            cursor: 'pointer',
-                                            width: '100%',
-                                            maxWidth: 520,
-                                            mx: 'auto',
-                                            boxSizing: 'border-box',
-                                            '&:hover': {
-                                                transform: 'translateY(-8px)',
-                                                boxShadow: `0 15px 40px ${themes.colors.Azul}30`,
-                                            }
-                                        }}
-                                        component={Link}
-                                        href="/dia-ano"
-                                    >
-                                        <CardContent sx={{ py: 2, px: 2 }}>
-                                            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                                                📅 Dias do Ano
-                                            </Typography>
-                                            <Typography variant="body2" color="textSecondary">
-                                                Visualize seu progresso no ano
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
 
-                                    <Card
-                                        sx={{
-                                            background: `linear-gradient(135deg, ${themes.colors.Vermelho}20 0%, transparent 100%)`,
-                                            border: `2px solid ${themes.colors.Vermelho}`,
-                                            borderRadius: 2,
-                                            transition: 'all 0.3s ease',
-                                            cursor: 'pointer',
-                                            width: '100%',
-                                            maxWidth: 520,
-                                            mx: 'auto',
-                                            boxSizing: 'border-box',
-                                            '&:hover': {
-                                                transform: 'translateY(-8px)',
-                                                boxShadow: `0 15px 40px ${themes.colors.Vermelho}30`,
-                                            }
-                                        }}
-                                        component={Link}
-                                        href="/sol"
-                                    >
-                                        <CardContent sx={{ py: 2, px: 2 }}>
-                                            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                                                ☀️ Sol e Lua
-                                            </Typography>
-                                            <Typography variant="body2" color="textSecondary">
-                                                Acompanhe os astros
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                    <Card
-                                        sx={{
-                                            background: `linear-gradient(135deg, ${themes.colors.Vermelho}20 0%, transparent 100%)`,
-                                            border: `2px solid ${themes.colors.Vermelho}`,
-                                            borderRadius: 2,
-                                            transition: 'all 0.3s ease',
-                                            cursor: 'pointer',
-                                            width: '100%',
-                                            maxWidth: 520,
-                                            mx: 'auto',
-                                            boxSizing: 'border-box',
-                                            '&:hover': {
-                                                transform: 'translateY(-8px)',
-                                                boxShadow: `0 15px 40px ${themes.colors.Vermelho}30`,
-                                            }
-                                        }}
-                                        component={Link}
-                                        href="/mares"
-                                    >
-                                        <CardContent sx={{ py: 2, px: 2 }}>
-                                            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                                                🌊 Marés
-                                            </Typography>
-                                            <Typography variant="body2" color="textSecondary">
-                                                Acompanhe as marés na sua localização
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Box>
-                            </Grid>
                         </Grid>
                     </Container>
                 </Box>
+
+                {/* Website Development Section */}
+                <WebsiteDevelopment />
 
                 {/* About Section */}
                 {open && (
