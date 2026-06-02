@@ -42,6 +42,7 @@ export default function Header() {
                 ) : (
                     <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                         <Button component={Link} href="/" color="inherit">Home</Button>
+                        <Button component={Link} href="/website-development" color="inherit">Website</Button>
                         <Button component={Link} href="/dia-ano" color="inherit">Dias do Ano</Button>
                         <Button component={Link} href="/sol" color="inherit">Sol e Lua</Button>
                         <Button

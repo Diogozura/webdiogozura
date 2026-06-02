@@ -40,7 +40,7 @@ export default function Footer() {
                 
 
            
-                <h4 style={{padding: '10px'}}>&copy; Desenvolvido por Diogo zura -2021  2023</h4>
+                <h4 style={{padding: '10px'}}>&copy; Desenvolvido por Diogo zura -2021  2026</h4>
                 <Box>
                 {redes.map((items) => (
                       <>
