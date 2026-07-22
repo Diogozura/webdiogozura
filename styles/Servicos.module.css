@@ -1,0 +1,108 @@
+.hero {
+  padding-top: 72px;
+  padding-bottom: 24px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 48px;
+  }
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 20px auto 0;
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  padding: 32px;
+  border-radius: var(--radius-md);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.card h3 {
+  font-size: 20px;
+}
+
+.card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.features li {
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.featureIcon {
+  flex-shrink: 0;
+  color: var(--primary);
+}
+
+.finalCta {
+  text-align: center;
+  padding: 64px 32px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-primary);
+  color: #fff;
+  margin-top: 64px;
+}
+
+.finalCta h2 {
+  font-size: clamp(24px, 4vw, 32px);
+  margin-bottom: 12px;
+}
+
+.finalCta p {
+  opacity: 0.9;
+  margin-bottom: 24px;
+}

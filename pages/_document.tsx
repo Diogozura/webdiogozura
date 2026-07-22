@@ -17,17 +17,19 @@ export default class MyDocument extends Document {
 
   render(): React.ReactElement {
     return (
-      <Html lang="en">
+      <Html lang="pt-BR">
         <Head>
-          <meta charSet="utf-8" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Iceberg&display=swap"
-            rel="stylesheet"
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){try{
+                var mode = localStorage.getItem('dz-theme-mode');
+                if(!mode){ mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+                var accent = localStorage.getItem('dz-theme-accent') || 'padrao';
+                document.documentElement.setAttribute('data-theme', mode);
+                document.documentElement.setAttribute('data-accent', accent);
+              }catch(e){}})();`,
+            }}
           />
-          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
         </Head>
         <body>
           <Main />
