@@ -10,6 +10,7 @@ const LINKS = [
   { href: '/sobre', label: 'Sobre' },
   { href: '/portfolio', label: 'Portfólio' },
   { href: '/servicos', label: 'Serviços' },
+  { href: '/consultoria', label: 'Consultoria' },
 ];
 
 export function Header() {

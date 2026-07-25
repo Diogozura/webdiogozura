@@ -19,6 +19,7 @@ export function Footer() {
           <nav className={styles.links}>
             <Link href="/portfolio">Portfólio</Link>
             <Link href="/servicos">Serviços</Link>
+            <Link href="/consultoria">Consultoria</Link>
             <Link href="/sobre">Sobre mim</Link>
           </nav>
 

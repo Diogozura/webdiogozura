@@ -1,0 +1,150 @@
+.page {
+  /* Paleta feliz, só nesta página */
+  --primary: #fbbf24;
+  --secondary: #fb7185;
+}
+
+.hero {
+  position: relative;
+  padding-top: 72px;
+  padding-bottom: 32px;
+  text-align: center;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 48px;
+  }
+}
+
+.floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-size: 28px;
+}
+
+.floater {
+  position: absolute;
+  opacity: 0.5;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floater {
+    animation: none;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 20px auto 0;
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.ctaRow {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  padding: 32px;
+  border-radius: var(--radius-md);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.cardEmoji {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.card h3 {
+  font-size: 20px;
+}
+
+.card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.finalCta {
+  text-align: center;
+  padding: 64px 32px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-primary);
+  color: #fff;
+  margin-top: 64px;
+}
+
+.finalCta h2 {
+  font-size: clamp(24px, 4vw, 32px);
+  margin-bottom: 12px;
+}
+
+.finalCta p {
+  opacity: 0.95;
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+
+.finalEmojis {
+  font-size: 28px;
+  margin-top: 20px;
+  letter-spacing: 8px;
+}
