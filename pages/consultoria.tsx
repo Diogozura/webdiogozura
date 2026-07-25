@@ -1,6 +1,6 @@
 import { NextSeo } from 'next-seo';
 import { consultoriaItems } from '@/src/data/consultoria';
-import { INSTAGRAM_DM_URL } from '@/src/lib/constants';
+import { INSTAGRAM_DM_URL, YASMIN_INSTAGRAM_URL } from '@/src/lib/constants';
 import { Reveal } from '@/src/components/Reveal/Reveal';
 import styles from '@/styles/Consultoria.module.css';
 
@@ -57,6 +57,18 @@ export default function Consultoria() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className={styles.partner}>
+          <div className={styles.partnerAvatar}>💛</div>
+          <div>
+            <span className={styles.partnerTag}>Consultoria em dose dupla</span>
+            <h3>Yasmin, minha parceira</h3>
+            <p>Cofundadora oficial da bagunça. Café, fofoca e network ficam ainda melhores com ela por perto.</p>
+            <a href={YASMIN_INSTAGRAM_URL} target="_blank" rel="noreferrer" className={styles.partnerLink}>
+              @ysxmni ↗
+            </a>
+          </div>
+        </Reveal>
 
         <div className={styles.finalCta}>
           <h2>Vaga de consultor(a) de vida disponível 😎</h2>
