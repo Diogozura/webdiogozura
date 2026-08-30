@@ -14,44 +14,47 @@ export default function Home() {
   return (
     <>
       <NextSeo
-        title="Diogo Zura — Sites e sistemas sob medida em Cotia e região de SP"
-        description="Desenvolvimento de sites a partir de R$200 e soluções sob medida para empresas de telecom e projetos diversos. Atendimento em Cotia, São Paulo e região, com trabalhos remotos para todo o Brasil."
-        canonical="https://www.diogozura.com/"
+        title="Diogo Zura — Automação de Atendimento para Provedores de Internet e Telecom"
+        description="Implantação de automação de atendimento com IA (IXC + OPA Suite) para provedores de internet e empresas de telecom, além de sites e sistemas sob medida. Atendimento em Cotia, São Paulo e região, com trabalhos remotos para todo o Brasil."
+        canonical="https://www.diogozura.com"
       />
 
       <section className={`container ${styles.hero}`}>
-        <span className={styles.badge}>Sites a partir de R$ 200</span>
+        <span className={styles.badge}>Automação de atendimento com IA para telecom</span>
         <h1 className={styles.title}>
-          Sites e sistemas <span className="gradientText">sob medida</span> para o seu negócio crescer
+          Automação de atendimento e sistemas <span className="gradientText">sob medida</span> para o seu negócio crescer
         </h1>
         <p className={styles.subtitle}>
-          Desenvolvo sites, dashboards e soluções para empresas de telecom e projetos diversos —
-          do primeiro site institucional a sistemas mais complexos.
+          Implanto automação de atendimento com IA para provedores de internet e empresas de telecom
+          — e desenvolvo sites e sistemas sob medida para outros negócios, do institucional ao mais complexo.
         </p>
         <p className={styles.location}>📍 Atendo Cotia, São Paulo e região — e 100% remoto para todo o Brasil.</p>
         <div className={styles.ctaRow}>
-          <a href={INSTAGRAM_DM_URL} target="_blank" rel="noreferrer" className="btn btnPrimary">
+          <Link href="/ixc-opa-suite" className="btn btnPrimary">
+            Ver implantação IXC + OPA Suite
+          </Link>
+          <a href={INSTAGRAM_DM_URL} target="_blank" rel="noreferrer" className="btn btnGhost">
             Fale comigo
           </a>
-          <Link href="/portfolio" className="btn btnGhost">
-            Ver portfólio
-          </Link>
         </div>
 
         <div className={styles.highlights}>
           <Reveal className={styles.highlightCard} delay={0}>
             <div className={styles.highlightIcon}>
+              <SignalIcon />
+            </div>
+            <h3>Automação para provedores de telecom</h3>
+            <p>Implantação de IXC + OPA Suite com IA: atendimento automatizado, controle de massiva e boleto automático.</p>
+            <Link href="/ixc-opa-suite" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 12, fontWeight: 600 }}>
+              Saiba mais <ArrowRightIcon size={14} />
+            </Link>
+          </Reveal>
+          <Reveal className={styles.highlightCard} delay={80}>
+            <div className={styles.highlightIcon}>
               <GlobeIcon />
             </div>
             <h3>Sites a partir de R$ 200</h3>
             <p>Páginas rápidas, responsivas e prontas para captar clientes, com preço acessível para começar.</p>
-          </Reveal>
-          <Reveal className={styles.highlightCard} delay={80}>
-            <div className={styles.highlightIcon}>
-              <SignalIcon />
-            </div>
-            <h3>Soluções para telecom</h3>
-            <p>Sistemas e painéis sob medida para operações de empresas de telecomunicações.</p>
           </Reveal>
           <Reveal className={styles.highlightCard} delay={160}>
             <div className={styles.highlightIcon}>

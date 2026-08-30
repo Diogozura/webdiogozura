@@ -39,6 +39,8 @@ export default function Consultoria() {
         title="Consultoria Tico e Teco — Diogo Zura"
         description="Consultoria Tico e Teco em amizade, network, treinos, café, fofocas e muito mais. 100% descontraída."
         canonical="https://www.diogozura.com/consultoria"
+        noindex
+        nofollow
       />
 
       <section className={`container ${styles.hero}`}>

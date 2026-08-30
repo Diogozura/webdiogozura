@@ -7,10 +7,11 @@ import styles from './Header.module.css';
 
 const LINKS = [
   { href: '/', label: 'Início' },
-  { href: '/sobre', label: 'Sobre' },
-  { href: '/portfolio', label: 'Portfólio' },
+  { href: '/ixc-opa-suite', label: 'IXC + OPA Suite' },
   { href: '/servicos', label: 'Serviços' },
-  { href: '/consultoria', label: 'Consultoria' },
+  { href: '/portfolio', label: 'Portfólio' },
+  { href: '/sobre', label: 'Sobre' },
+  // { href: '/consultoria', label: 'Consultoria' },
 ];
 
 export function Header() {

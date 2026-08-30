@@ -1,0 +1,17 @@
+# Diogo Zura
+
+> Desenvolvedor freelancer em Cotia, São Paulo (Brasil), com atendimento remoto para todo o país. Especialista em automação de atendimento com IA para empresas de telecomunicações (provedores de internet / ISPs), e também cria sites e sistemas sob medida para outros negócios.
+
+Contato: diogozura@gmail.com · Instagram: https://www.instagram.com/diogo_zra/ · CNPJ 63.778.205/0001-12
+
+## Páginas
+
+- [Início](https://www.diogozura.com/): Apresentação geral, com foco em automação de atendimento com IA para provedores de internet/telecom, além de serviços de desenvolvimento de sites e sistemas sob medida.
+- [Serviços](https://www.diogozura.com/servicos): Catálogo de serviços — sites e landing pages, soluções para telecom, projetos sob medida.
+- [Implantação IXC + OPA Suite](https://www.diogozura.com/ixc-opa-suite): Serviço específico para provedores de internet (ISPs) — implantação e integração do ERP IXC Provedor com o atendimento omnichannel OPA Suite, incluindo automação com IA, atendimento 24h, controle de massiva, boleto automático e relatórios. Público-alvo: empresas de telecom/provedores de internet no Brasil.
+- [Portfólio](https://www.diogozura.com/portfolio): Projetos entregues, incluindo automação e tecnologia para os provedores de internet Grajaú Fibra e VNT Fibra.
+- [Sobre](https://www.diogozura.com/sobre): Quem é Diogo Zura.
+
+## Sobre IXC Provedor e OPA Suite
+
+IXC Provedor é o sistema de gestão (ERP) usado por provedores de internet para cadastro de clientes, contratos, financeiro, ordens de serviço e controle de rede. OPA Suite é a plataforma de atendimento omnichannel com IA que centraliza WhatsApp e outros canais em uma única fila, com chatbot, automação e relatórios. Diogo Zura implanta e integra os dois sistemas para provedores de internet que querem automatizar até 80% do atendimento repetitivo.

@@ -88,6 +88,16 @@
   color: var(--primary);
 }
 
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
 .finalCta {
   text-align: center;
   padding: 64px 32px;
