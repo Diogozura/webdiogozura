@@ -31,8 +31,8 @@ export function Footer() {
             <a href={LINKEDIN_URL} target="_blank" rel="noreferrer">
               <LinkedinIcon size={16} /> LinkedIn
             </a>
-            <a href="mailto:diogozura@gmail.com">
-              <MailIcon size={16} /> diogozura@gmail.com
+            <a href="mailto:contato@diogozura.com">
+              <MailIcon size={16} /> contato@diogozura.com
             </a>
           </nav>
         </div>

@@ -106,7 +106,7 @@ export default function PoliticaDePrivacidade() {
             </ul>
             <p>
               Para exercer qualquer um desses direitos, entre em contato pelo e-mail{' '}
-              <a href="mailto:diogozura@gmail.com">diogozura@gmail.com</a>.
+              <a href="mailto:contato@diogozura.com">contato@diogozura.com</a>.
             </p>
           </div>
 

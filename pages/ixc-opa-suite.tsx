@@ -47,7 +47,7 @@ const SERVICE_JSON_LD = {
     '@type': 'ProfessionalService',
     name: 'Diogo Zura',
     url: 'https://www.diogozura.com',
-    email: 'diogozura@gmail.com',
+    email: 'contato@diogozura.com',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Cotia',
@@ -586,10 +586,10 @@ export default function IxcOpaSuite() {
           <Reveal className={styles.contactCard}>
             <a
               className={styles.contactLine}
-              href="mailto:diogozura@gmail.com?subject=Implanta%C3%A7%C3%A3o%20IXC%20%2B%20OPA%20Suite"
+              href="mailto:contato@diogozura.com?subject=Implanta%C3%A7%C3%A3o%20IXC%20%2B%20OPA%20Suite"
             >
               <MailIcon size={19} />
-              diogozura@gmail.com
+              contato@diogozura.com
             </a>
             <a className={styles.contactLine} href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
               <InstagramIcon size={19} />
